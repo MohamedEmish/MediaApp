@@ -7,7 +7,7 @@ plugins {
 }
 
 android {
-    namespace = "com.amosh.mediaapp.core.data"
+    namespace = "com.amosh.pulse.core.data"
     compileSdk = 36
 
     defaultConfig {

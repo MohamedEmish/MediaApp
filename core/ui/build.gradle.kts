@@ -7,7 +7,7 @@ plugins {
 }
 
 android {
-    namespace = "com.amosh.mediaapp.core.ui"
+    namespace = "com.amosh.pulse.core.ui"
     compileSdk = 36
 
     defaultConfig {

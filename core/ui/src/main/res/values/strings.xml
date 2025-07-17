@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="camera">Camera</string>
+    <string name="gallery">Gallery</string>
+    <string name="pdf_file">PDF file</string>
+    <string name="done">Done</string>
+    <string name="clear">Clear</string>
+    <string name="search">Search</string>
+    <string name="no_search_result">No Search Result</string>
+</resources>

@@ -20,7 +20,7 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "MediaApp"
+rootProject.name = "Pulse"
 include(":app")
 
 include(":core")

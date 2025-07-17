@@ -8,11 +8,11 @@ plugins {
 }
 
 android {
-    namespace = "com.amosh.mediaapp"
+    namespace = "com.amosh.pulse"
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "com.amosh.mediaapp"
+        applicationId = "com.amosh.pulse"
         minSdk = 26
         targetSdk = 36
         versionCode = 1
