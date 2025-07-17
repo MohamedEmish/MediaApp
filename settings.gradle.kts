@@ -1,0 +1,29 @@
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        google()
+        mavenCentral()
+        maven(url = "https://jitpack.io")
+        maven(url = "https://maven.google.com")
+    }
+}
+
+
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+        maven(url = "https://jitpack.io")
+        maven(url = "https://maven.google.com")
+    }
+}
+
+rootProject.name = "MediaApp"
+include(":app")
+
+include(":core")
+include(":core:data")
+include(":core:domain")
+include(":core:ui")
