@@ -65,7 +65,7 @@ object NetworkModule {
     fun provideRetrofit(
         okHttpClient: OkHttpClient,
     ): Retrofit = Retrofit.Builder()
-        .baseUrl("")
+        .baseUrl("https://mock.apidog.com")
         .client(okHttpClient)
         .addConverterFactory(GsonConverterFactory.create())
         .build()

@@ -5,9 +5,13 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.emptyPreferences
+import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import com.amosh.pulse.core.domain.constants.Constants.APP_DATE_STORE_NAME
+import com.amosh.pulse.core.domain.model.UserData
 import com.amosh.pulse.core.domain.utils.EncryptionUtils
+import com.amosh.pulse.core.domain.utils.toGson
+import com.amosh.pulse.core.domain.utils.toObject
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
@@ -25,7 +29,11 @@ class SecureDataStore @Inject constructor(
     private val dataStore: DataStore<Preferences> = context._dataStore
     private val prefToKeep = listOf<Preferences.Key<String>>()
 
+    val userData = secureMap(USER_DATA_KEY)
+        .map { it.toObject(UserData::class.java) ?: UserData() }
 
+    suspend fun setUserData(user: UserData) =
+        secureEdit(USER_DATA_KEY, user.toGson())
 
     private suspend fun secureEdit(
         key: Preferences.Key<String>,
@@ -62,6 +70,7 @@ class SecureDataStore @Inject constructor(
     }
 
     companion object {
+        private val USER_DATA_KEY = stringPreferencesKey("pref_user_data")
     }
 
 }

@@ -5,6 +5,7 @@ import com.amosh.pulse.core.domain.source.InMemorySource
 import com.amosh.pulse.core.domain.source.LocalDataSource
 import com.amosh.pulse.core.domain.source.RemoteDataSource
 import com.amosh.pulse.core.domain.utils.mapDataOrThrow
+import com.amosh.zakwa.core.domain.model.enums.SupportedLanguages
 import javax.inject.Inject
 
 class RepositoryImpl @Inject constructor(
@@ -19,4 +20,10 @@ class RepositoryImpl @Inject constructor(
     override fun getHomeSearchSections(query : String) =
         remoteDataSource.getHomeSearchSections(query)
             .mapDataOrThrow()
+
+    override fun getAppLanguage() =
+        localDataSource.getAppLanguage()
+
+    override suspend fun updateAppLanguage(language: SupportedLanguages) =
+        localDataSource.updateAppLanguage(language)
 }

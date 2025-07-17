@@ -1,3 +1,9 @@
 package com.amosh.pulse.core.domain.source
 
-interface LocalDataSource
+import com.amosh.zakwa.core.domain.model.enums.SupportedLanguages
+import kotlinx.coroutines.flow.Flow
+
+interface LocalDataSource {
+    fun getAppLanguage(): Flow<SupportedLanguages>
+    suspend fun updateAppLanguage(language: SupportedLanguages)
+}
