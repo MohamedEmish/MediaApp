@@ -10,15 +10,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.LayoutDirection
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.amosh.pulse.ui.screens.homeScreen.HomeScreen
+import com.amosh.pulse.ui.screens.homeScreen.HomeViewModel
 import com.amosh.pulse.ui.theme.NavigationDestinations
 import com.amosh.pulse.utils.LocalNavHostController
 
 const val NAVIGATION_ANIMATION_DURATION = 300
 
 @Composable
-fun Navigation(modifier: Modifier) {
+fun Navigation(
+    modifier: Modifier,
+    homeViewModel: HomeViewModel = hiltViewModel(),
+) {
     val layoutDirection = LocalLayoutDirection.current
     val startOffset = if (layoutDirection == LayoutDirection.Rtl) -1000 else 1000
     val endOffset = -startOffset
@@ -56,7 +62,7 @@ fun Navigation(modifier: Modifier) {
             ) {
 
             composable(NavigationDestinations.HomeScreen().name) {
-//            HomeScreen()
+                HomeScreen(homeViewModel)
             }
 
             composable(NavigationDestinations.SearchScreen().name) {

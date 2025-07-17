@@ -26,4 +26,7 @@ class RepositoryImpl @Inject constructor(
 
     override suspend fun updateAppLanguage(language: SupportedLanguages) =
         localDataSource.updateAppLanguage(language)
+
+    override fun getUserData() =
+        localDataSource.getUserData()
 }

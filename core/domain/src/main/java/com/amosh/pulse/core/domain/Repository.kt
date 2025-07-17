@@ -1,6 +1,7 @@
 package com.amosh.pulse.core.domain
 
 import com.amosh.pulse.core.domain.model.HomeSectionsResponse
+import com.amosh.pulse.core.domain.model.UserData
 import com.amosh.zakwa.core.domain.model.enums.SupportedLanguages
 import kotlinx.coroutines.flow.Flow
 
@@ -10,4 +11,7 @@ interface Repository {
 
     fun getAppLanguage(): Flow<SupportedLanguages>
     suspend fun updateAppLanguage(language: SupportedLanguages)
+
+    fun getUserData(): Flow<UserData>
+
 }

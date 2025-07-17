@@ -45,7 +45,10 @@ fun SimpleLabMessageComponent(
     SnackbarHost(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(MaterialTheme.spacing.medium16),
+            .padding(
+                horizontal = MaterialTheme.spacing.medium16,
+                vertical = MaterialTheme.spacing.xXXLarge48
+            ),
         hostState = snackBarHostState,
         snackbar = { snackBarData: SnackbarData ->
             Snackbar(
