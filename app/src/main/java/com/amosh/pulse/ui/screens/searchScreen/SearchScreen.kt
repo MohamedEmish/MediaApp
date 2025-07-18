@@ -180,9 +180,9 @@ fun SearchInputField(
     placeholder: String = "Search...",
     focusedBorderColor: Color = MaterialTheme.colorScheme.primary,
     unfocusedBorderColor: Color = MaterialTheme.colorScheme.secondary,
-    backgroundColor: Color = MaterialTheme.colorScheme.surface,
-    textColor: Color = MaterialTheme.colorScheme.onSurface,
-    iconColor: Color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
+    backgroundColor: Color = MaterialTheme.colorScheme.background,
+    textColor: Color = MaterialTheme.colorScheme.onBackground,
+    iconColor: Color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6f)
 ) {
     var isFocused by remember { mutableStateOf(false) }
 

@@ -371,9 +371,9 @@ fun ShimmerSquareView(
     itemCount: Int = 5
 ) {
     val shimmerColors = listOf(
-        platinum_150,
-        platinum_50,
-        platinum_150,
+        MaterialTheme.colorScheme.onSurface,
+        MaterialTheme.colorScheme.inverseSurface,
+        MaterialTheme.colorScheme.onSurface,
     )
 
     val transition = rememberInfiniteTransition()

@@ -19,7 +19,7 @@
     <string name="no_internet">لا يوجد اتصال بالإنترنت. يرجى التحقق من الشبكة</string>
     <string name="language">اللغة</string>
     <string name="username">الاسم</string>
-    <string name="theme">السمة</string>
+    <string name="theme">المظهر</string>
     <string name="dark">الوضع الداكن</string>
     <string name="light">الوضع الفاتح</string>
     <string name="follow_system">مطابقة إعدادات النظام</string>

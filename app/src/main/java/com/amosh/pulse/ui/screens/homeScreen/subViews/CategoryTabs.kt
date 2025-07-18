@@ -29,9 +29,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
-import com.amosh.pulse.core.ui.theme.platinum_150
 import com.amosh.pulse.core.ui.theme.platinum_400
-import com.amosh.pulse.core.ui.theme.platinum_50
 import com.amosh.pulse.core.ui.theme.platinum_600
 import com.amosh.pulse.core.ui.theme.spacing
 
@@ -93,9 +91,9 @@ fun ShimmerCategoryTabs(
     itemCount: Int = 5
 ) {
     val shimmerColors = listOf(
-        platinum_150,
-        platinum_50,
-        platinum_150,
+        MaterialTheme.colorScheme.onSurface,
+        MaterialTheme.colorScheme.inverseSurface,
+        MaterialTheme.colorScheme.onSurface,
     )
 
     val transition = rememberInfiniteTransition()

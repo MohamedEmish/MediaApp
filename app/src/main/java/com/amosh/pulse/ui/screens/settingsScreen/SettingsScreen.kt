@@ -199,7 +199,8 @@ fun SettingsScreen(
                 startIcon = Icons.Outlined.Language,
                 endIconColor = MaterialTheme.colorScheme.secondary,
                 startIconColor = MaterialTheme.colorScheme.secondary,
-                alignEndIconToViewEnd = true
+                alignEndIconToViewEnd = true,
+                textColor = MaterialTheme.colorScheme.onBackground
             )
 
             HorizontalDivider(
@@ -222,7 +223,8 @@ fun SettingsScreen(
                 startIcon = Icons.Filled.Contrast,
                 endIconColor = MaterialTheme.colorScheme.secondary,
                 startIconColor = MaterialTheme.colorScheme.secondary,
-                alignEndIconToViewEnd = true
+                alignEndIconToViewEnd = true,
+                textColor = MaterialTheme.colorScheme.onBackground
             )
 
             HorizontalDivider(
