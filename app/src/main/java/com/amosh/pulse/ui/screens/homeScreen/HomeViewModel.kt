@@ -12,9 +12,11 @@ import com.amosh.pulse.model.SectionsUiItem
 import com.amosh.pulse.ui.mapper.SectionItemUiMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
@@ -39,8 +41,20 @@ class HomeViewModel @Inject constructor(
     private val loadedSections: MutableList<SectionsUiItem> = mutableListOf()
     private var totalPages: Int? = null
 
+    private val fetchSectionsEvent = MutableSharedFlow<Boolean>(extraBufferCapacity = 1)
+
     init {
         getStoredUserData()
+        fetchSectionsEvent
+            .debounce(400)
+            .onEach { shouldRefresh ->
+                if (connectionChecker.hasInternetConnection()) {
+                    handleGetHomeSections(shouldRefresh)
+                } else {
+                    setState { copy(HomeContract.HomeState.NoInternet) }
+                }
+            }
+            .launchIn(viewModelScope)
         checkConnectionBeforeCall(false)
     }
 
@@ -74,11 +88,28 @@ class HomeViewModel @Inject constructor(
             .map { response ->
                 totalPages = response.pagination?.totalPages
                 currentPage += 1
+
                 when {
-                    response.sections.isNullOrEmpty() && loadedSections.isEmpty() -> HomeContract.HomeState.Empty
+                    response.sections.isNullOrEmpty() && loadedSections.isEmpty() -> {
+                        HomeContract.HomeState.Empty
+                    }
                     else -> {
-                        loadedSections.addAll(mapper.fromList(response.sections ?: listOf()))
-                        HomeContract.HomeState.Success(loadedSections)
+                        val newSections = mapper.fromList(response.sections ?: listOf())
+
+                        newSections.forEach { newSection ->
+                            val existingSectionIndex = loadedSections.indexOfFirst { it.name == newSection.name }
+                            if (existingSectionIndex != -1) {
+                                val existingSection = loadedSections[existingSectionIndex]
+                                val mergedContent = (existingSection.content?.toMutableList() ?: mutableListOf()).apply {
+                                    addAll(newSection.content ?: listOf())
+                                }
+                                loadedSections[existingSectionIndex] = existingSection.copy(content = mergedContent)
+                            } else {
+                                loadedSections.add(newSection)
+                            }
+                        }
+
+                        HomeContract.HomeState.Success(loadedSections.toList())
                     }
                 }
             }
@@ -104,9 +135,6 @@ class HomeViewModel @Inject constructor(
         .launchIn(viewModelScope)
 
     private fun checkConnectionBeforeCall(shouldRefresh: Boolean) = viewModelScope.launch {
-        if (connectionChecker.hasInternetConnection()) {
-            handleGetHomeSections(shouldRefresh)
-        } else setState { copy(HomeContract.HomeState.NoInternet) }
-
+        fetchSectionsEvent.emit(shouldRefresh)
     }
 }
