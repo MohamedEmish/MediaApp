@@ -24,20 +24,28 @@ A modern Android application built with **Jetpack Compose**, **Kotlin**, and a c
 ## 🧱 Architecture
 
 **Modular Clean Architecture** with separation of concerns:
+
+## 📁 Project Structure
+
+```text
 📦 Pulse/
-├── app
-    ├── ui                 # Presentation layer (screen and view models)
-├── core 
-    ├── data               # Data layer (repositories, remote APIs, local sources) implementations
-        ├── dataSource 
-            ├── local      # DataStore
-            ├── remote     # API
-            ├── di         # Hilt modules and providers
-    ├── domai              # Business logic (use cases, models)
-        ├── useCases 
-        ├── appConstants 
-        ├── utils         # General-purpose tools
-    ├── ui # Jetpack Compose Base UI and ViewModels
+├── app/
+│   └── ui/                        # Presentation layer (screens and ViewModels)
+│
+├── core/
+│   ├── data/                      # Data layer implementations
+│   │   ├── dataSource/            # Abstract data sources
+│   │   ├── local/                 # Local storage (DataStore)
+│   │   ├── remote/                # API communication
+│   │   └── di/                    # Hilt modules and dependency injection
+│   │
+│   ├── domain/                    # Business logic layer
+│   │   ├── useCases/              # Use case classes
+│   │   ├── appConstants/          # Constants and config values
+│   │   └── utils/                 # General-purpose tools
+│   │
+│   └── ui/                        # Shared Jetpack Compose UI and base ViewModels
+``` 
 
 - Follows **MVVM + Clean Architecture**
 - **State management** using Kotlin `Flow` and `StateFlow`
@@ -69,7 +77,8 @@ A modern Android application built with **Jetpack Compose**, **Kotlin**, and a c
 
 ---
 
-🧩 Modular & Scalable
+## 🧩 Modular & Scalable
+
 The app is designed to support modularity and separation of concerns:
 
 - Feature modules can be added easily (e.g., feature-auth, feature-profile)
