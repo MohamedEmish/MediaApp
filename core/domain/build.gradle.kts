@@ -52,4 +52,7 @@ dependencies {
     // Network (Retrofit)
     implementation(libs.retrofit)
     implementation(libs.retrofit.gson)
+
+    //Testing
+    testImplementation(libs.bundles.testing)
 }

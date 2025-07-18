@@ -97,4 +97,7 @@ dependencies {
 
     // Lottie
     implementation(libs.lottie.compose)
+
+    //Testing
+    testImplementation(libs.bundles.testing)
 }

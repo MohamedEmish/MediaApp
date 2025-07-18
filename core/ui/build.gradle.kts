@@ -69,4 +69,7 @@ dependencies {
     // Project Modules
     implementation(project(":core:data"))
     implementation(project(":core:domain"))
+
+    //Testing
+    testImplementation(libs.bundles.testing)
 }
