@@ -3,6 +3,7 @@ package com.amosh.pulse.ui.screens.homeScreen
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.snapping.rememberSnapFlingBehavior
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -24,6 +25,8 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -80,11 +83,15 @@ fun PeekingCardsCarousel(
     modifier: Modifier = Modifier,
     onItemClick: (ContentUiItem.PodcastContentUi) -> Unit
 ) {
-    val listState = rememberLazyListState()
+    // For infinite scrolling
+    val infiniteItems = remember { items + items + items }
+    val listState = rememberLazyListState(initialFirstVisibleItemIndex = items.size)
+
     val screenWidth = LocalConfiguration.current.screenWidthDp.dp
     val fullCardWidth = screenWidth * 0.60f
     val peekWidth = screenWidth * 0.15f
     val itemWidth = fullCardWidth + peekWidth  // Each item takes card width + peek
+    val itemSpacing = MaterialTheme.spacing.small8 // Add spacing between items
 
     Box(
         modifier = modifier
@@ -102,10 +109,11 @@ fun PeekingCardsCarousel(
             contentPadding = PaddingValues(
                 horizontal = MaterialTheme.spacing.medium16,
                 vertical = MaterialTheme.spacing.small8
-            )
+            ),
+            horizontalArrangement = Arrangement.spacedBy(itemSpacing)
         ) {
-            items(items) { item ->
-                val currentIndex = items.indexOf(item)
+            items(infiniteItems) { item ->
+                val currentIndex = infiniteItems.indexOf(item) % items.size
                 Box(
                     modifier = Modifier
                         .width(itemWidth)
@@ -114,7 +122,7 @@ fun PeekingCardsCarousel(
                     // Card 3 (peeking from right, deepest)
                     if (currentIndex + 2 < items.size) {
                         PodcastCard(
-                            item = items[currentIndex + 2],
+                            item = items[(currentIndex + 2) % items.size],
                             modifier = Modifier
                                 .width(fullCardWidth)
                                 .align(Alignment.CenterStart)
@@ -126,7 +134,7 @@ fun PeekingCardsCarousel(
                     // Card 2 (middle, peeking from right)
                     if (currentIndex + 1 < items.size) {
                         PodcastCard(
-                            item = items[currentIndex + 1],
+                            item = items[(currentIndex + 1) % items.size],
                             modifier = Modifier
                                 .width(fullCardWidth)
                                 .align(Alignment.CenterStart)
@@ -137,14 +145,23 @@ fun PeekingCardsCarousel(
 
                     // Current Card (main card)
                     PodcastCard(
-                        item = item,
+                        item = items[currentIndex % items.size],
                         modifier = Modifier
                             .width(fullCardWidth)
                             .align(Alignment.CenterStart)
                             .zIndex(2f)
-                            .clickable { onItemClick(item) },
+                            .clickable { onItemClick(items[currentIndex % items.size]) },
                     )
                 }
+            }
+        }
+
+        // Handle infinite scroll reset
+        LaunchedEffect(listState.firstVisibleItemIndex) {
+            if (listState.firstVisibleItemIndex >= items.size * 2) {
+                listState.scrollToItem(items.size)
+            } else if (listState.firstVisibleItemIndex <= 0) {
+                listState.scrollToItem(items.size)
             }
         }
     }
@@ -164,20 +181,15 @@ fun PodcastCard(
         elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
         colors = CardDefaults.cardColors(containerColor = Color.White)
     ) {
-        Row {
-            item.avatarUrl?.let {
-                AsyncImage(
-                    model = it,
-                    contentDescription = null,
-                    modifier = Modifier
-                        .height(140.dp)
-                        .width(140.dp)
-                        .clip(RoundedCornerShape(12.dp)),
-                    contentScale = ContentScale.Crop
-                )
-            }
-
-            Column(modifier = Modifier.padding(16.dp)) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Column(
+                modifier = Modifier
+                    .padding(16.dp)
+                    .weight(1f)
+            ) {
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
                     text = item.name ?: "",
@@ -193,6 +205,17 @@ fun PodcastCard(
                 )
             }
 
+            item.avatarUrl?.let {
+                AsyncImage(
+                    model = it,
+                    contentDescription = null,
+                    modifier = Modifier
+                        .height(MaterialTheme.spacing.special124)
+                        .width(MaterialTheme.spacing.special124)
+                        .clip(RoundedCornerShape(MaterialTheme.spacing.medium16)),
+                    contentScale = ContentScale.FillBounds
+                )
+            }
         }
     }
 }
