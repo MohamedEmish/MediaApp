@@ -16,7 +16,7 @@ The Home Screen displays sections dynamically based on the response from the `/h
 
 Implemented infinite scrolling using `LazyColumn` and pagination logic to handle future expansion.
 
-Content rendering is driven by the backend response (`sectionType`, `contentType`, `order`).
+Content rendering is driven by the backend response (`sectionType`, `contentType`).
 
 Built a Search Screen using a debounce mechanism (200ms) to reduce unnecessary API calls via `Flow.debounce()` and `distinctUntilChanged()`.
 
