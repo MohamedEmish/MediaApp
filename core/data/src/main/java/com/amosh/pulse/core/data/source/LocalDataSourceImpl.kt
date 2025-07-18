@@ -4,7 +4,6 @@ import com.amosh.pulse.core.data.dataSource.local.SecureDataStore
 import com.amosh.pulse.core.domain.model.UserData
 import com.amosh.pulse.core.domain.source.LocalDataSource
 import com.amosh.zakwa.core.domain.model.enums.SupportedLanguages
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
@@ -28,4 +27,15 @@ class LocalDataSourceImpl @Inject constructor(
     }
 
     override fun getUserData() = secureDataStore.userData
+
+    override suspend fun updateName(name: String) =
+        updateUserData {
+            userName = name
+        }
+
+    override suspend fun updateProfilePic(pic: String) =
+        updateUserData {
+            profilePic = pic
+        }
+
 }

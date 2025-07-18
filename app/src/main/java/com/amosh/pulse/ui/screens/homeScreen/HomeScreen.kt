@@ -9,9 +9,12 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.amosh.pulse.R
 import com.amosh.pulse.core.domain.constants.Constants.VIEW_TYPE_2_LINES_GRID
 import com.amosh.pulse.core.domain.constants.Constants.VIEW_TYPE_BIG_SQUARE
 import com.amosh.pulse.core.domain.constants.Constants.VIEW_TYPE_QUEUE
@@ -27,6 +30,8 @@ import com.amosh.pulse.ui.screens.homeScreen.subViews.ShimmerQueueView
 import com.amosh.pulse.ui.screens.homeScreen.subViews.ShimmerSquareView
 import com.amosh.pulse.ui.screens.homeScreen.subViews.SquareView
 import com.amosh.pulse.ui.screens.homeScreen.subViews.TopGreetingBar
+import com.amosh.pulse.utils.showToastMessage
+import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun HomeScreen(
@@ -35,13 +40,34 @@ fun HomeScreen(
     val scrollState = rememberScrollState()
     val userDataState = viewModel.userDataState.collectAsStateWithLifecycle()
     val uiState = viewModel.uiState.collectAsStateWithLifecycle()
+    val context = LocalContext.current
+
+    LaunchedEffect(Unit) {
+        viewModel.effect.collectLatest { effect ->
+            when (effect) {
+                is HomeContract.Effect.ShowError -> {
+                    showToastMessage(
+                        context,
+                        effect.messageRes?.let {
+                            context.getString(it)
+                        } ?: context.getString(
+                            R.string.something_went_wrong
+                        )
+                    )
+                }
+            }
+        }
+    }
 
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
     ) {
-        TopGreetingBar(userName = userDataState.value.userName)
+        TopGreetingBar(
+            userName = userDataState.value.userName,
+            userImage = userDataState.value.profilePic
+        )
         when (val result = uiState.value.state) {
             is HomeContract.HomeState.Loading -> {
                 Column {

@@ -29,4 +29,11 @@ class RepositoryImpl @Inject constructor(
 
     override fun getUserData() =
         localDataSource.getUserData()
+
+    override suspend fun updateProfilePic(pic: String) =
+        localDataSource.updateProfilePic(pic)
+
+    override suspend fun updateName(name: String) =
+        localDataSource.updateName(name)
+
 }

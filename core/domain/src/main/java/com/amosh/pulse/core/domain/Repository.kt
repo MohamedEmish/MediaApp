@@ -14,4 +14,6 @@ interface Repository {
 
     fun getUserData(): Flow<UserData>
 
+    suspend fun updateProfilePic(pic: String)
+    suspend fun updateName(name: String)
 }

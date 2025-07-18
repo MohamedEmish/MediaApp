@@ -1,11 +1,13 @@
 package com.amosh.pulse.ui.screens.homeScreen.subViews
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Notifications
+import androidx.compose.material.icons.rounded.Person
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -18,12 +20,14 @@ import com.amosh.pulse.R
 import com.amosh.pulse.core.domain.constants.Constants.GOOD_AFTERNOON
 import com.amosh.pulse.core.domain.constants.Constants.GOOD_EVENING
 import com.amosh.pulse.core.domain.constants.Constants.GOOD_MORNING
+import com.amosh.pulse.core.ui.components.action.SimpleLabCircularImageView
 import com.amosh.pulse.core.ui.theme.spacing
 import java.time.LocalTime
 
 @Composable
 fun TopGreetingBar(
     userName: String?,
+    userImage: String?,
     modifier: Modifier = Modifier
 ) {
     val greetingResId = rememberGreetingResId(userName)
@@ -32,9 +36,18 @@ fun TopGreetingBar(
         modifier = modifier
             .fillMaxWidth()
             .padding(MaterialTheme.spacing.medium16),
-        horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
+        userImage?.let {
+            SimpleLabCircularImageView(
+                imageUrl = userImage,
+                placeholder = Icons.Rounded.Person,
+                size = MaterialTheme.spacing.large24
+            )
+        }
+
+        Spacer(modifier = Modifier.width(MaterialTheme.spacing.special4))
+
         Text(
             text = if (userName.isNullOrBlank()) {
                 stringResource(id = greetingResId)
@@ -44,6 +57,9 @@ fun TopGreetingBar(
             style = MaterialTheme.typography.bodyLarge,
             color = MaterialTheme.colorScheme.onBackground
         )
+
+        Spacer(modifier = Modifier.weight(1f))
+
         Icon(
             imageVector = Icons.Default.Notifications,
             contentDescription = "",
@@ -63,11 +79,13 @@ private fun rememberGreetingResId(userName: String?): Int {
             } else {
                 R.string.greeting_morning_with_name
             }
+
             GOOD_AFTERNOON -> if (userName.isNullOrBlank()) {
                 R.string.greeting_afternoon
             } else {
                 R.string.greeting_afternoon_with_name
             }
+
             else -> if (userName.isNullOrBlank()) {
                 R.string.greeting_evening
             } else {

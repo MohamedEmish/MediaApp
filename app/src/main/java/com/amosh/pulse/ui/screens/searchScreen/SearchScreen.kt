@@ -20,6 +20,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -29,6 +30,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -51,6 +53,8 @@ import com.amosh.pulse.ui.screens.homeScreen.subViews.ShimmerCategoryTabs
 import com.amosh.pulse.ui.screens.homeScreen.subViews.ShimmerGridView
 import com.amosh.pulse.ui.screens.homeScreen.subViews.ShimmerQueueView
 import com.amosh.pulse.ui.screens.homeScreen.subViews.ShimmerSquareView
+import com.amosh.pulse.utils.showToastMessage
+import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun SearchScreen(
@@ -59,6 +63,24 @@ fun SearchScreen(
     val scrollState = rememberScrollState()
     val uiState = viewModel.uiState.collectAsStateWithLifecycle()
     val query by viewModel.searchQuery.collectAsState()
+    val context = LocalContext.current
+
+    LaunchedEffect(Unit) {
+        viewModel.effect.collectLatest { effect ->
+            when (effect) {
+                is SearchContract.Effect.ShowError -> {
+                    showToastMessage(
+                        context,
+                        effect.messageRes?.let {
+                            context.getString(it)
+                        } ?: context.getString(
+                            R.string.something_went_wrong
+                        )
+                    )
+                }
+            }
+        }
+    }
 
     Column(
         modifier = Modifier
@@ -68,6 +90,7 @@ fun SearchScreen(
         SearchInputField(
             modifier = Modifier.padding(MaterialTheme.spacing.medium16),
             query = query,
+            placeholder = stringResource(R.string.search),
             onQueryChange = { viewModel.setEvent(SearchContract.Event.OnSearch(it)) }
         )
 

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="camera">الكاميرا</string>
+    <string name="gallery">المعرض</string>
+    <string name="pdf_file">ملف PDF</string>
+    <string name="done">تم</string>
+    <string name="clear">مسح</string>
+    <string name="search">بحث</string>
+    <string name="no_search_result">لا توجد نتائج بحث</string>
+</resources>

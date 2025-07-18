@@ -9,4 +9,7 @@ interface LocalDataSource {
     suspend fun updateAppLanguage(language: SupportedLanguages)
 
     fun getUserData(): Flow<UserData>
+
+    suspend fun updateName(name: String)
+    suspend fun updateProfilePic(pic: String)
 }

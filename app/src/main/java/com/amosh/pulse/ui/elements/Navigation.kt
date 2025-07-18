@@ -16,6 +16,7 @@ import androidx.navigation.compose.composable
 import com.amosh.pulse.ui.screens.homeScreen.HomeScreen
 import com.amosh.pulse.ui.screens.homeScreen.HomeViewModel
 import com.amosh.pulse.ui.screens.searchScreen.SearchScreen
+import com.amosh.pulse.ui.screens.settingsScreen.SettingsScreen
 import com.amosh.pulse.ui.theme.NavigationDestinations
 import com.amosh.pulse.utils.LocalNavHostController
 
@@ -79,7 +80,7 @@ fun Navigation(
             }
 
             composable(NavigationDestinations.SettingsScreen().name) {
-//            SearchScreen()
+                SettingsScreen()
             }
 
         }
