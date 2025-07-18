@@ -24,5 +24,6 @@
     <string name="light">الوضع الفاتح</string>
     <string name="follow_system">مطابقة إعدادات النظام</string>
     <string name="coming_soon">قريبًا…</string>
+    <string name="no_data_to_show">لا توجد بيانات للعرض</string>
 
 </resources>
