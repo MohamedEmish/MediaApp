@@ -1,4 +1,4 @@
-package com.amosh.pulse.ui.screens
+package com.amosh.pulse.ui.screens.libraryScreen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -26,21 +26,21 @@ import com.amosh.pulse.core.ui.theme.SimpleLabTitleLarge
 import com.amosh.pulse.core.ui.theme.spacing
 
 @Composable
-fun NoInternetScreen(
+fun LibraryScreen(
     modifier: Modifier = Modifier,
 ) {
     Box(
         contentAlignment = Alignment.Center,
         modifier = modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background)
+            .background(MaterialTheme.colorScheme.background),
     ) {
         Column(
             modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.no_internet))
+            val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.no_library))
             val progress by animateLottieCompositionAsState(
                 composition = composition,
                 iterations = LottieConstants.IterateForever
@@ -55,7 +55,7 @@ fun NoInternetScreen(
 
             SimpleLabTextViewCompose(
                 text = stringResource(
-                    id = R.string.no_internet
+                    id = R.string.coming_soon
                 ),
                 modifier = Modifier
                     .padding(

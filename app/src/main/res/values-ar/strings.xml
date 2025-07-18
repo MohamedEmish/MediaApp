@@ -1,26 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="back_btn_message">الرجاء الضغط على زر الرجوع مرة أخرى للخروج</string>
-    <string name="home">الصفحة الرئيسية</string>
+    <string name="back_btn_message">يرجى الضغط مرة أخرى على زر الرجوع للخروج من التطبيق</string>
+    <string name="home">الرئيسية</string>
     <string name="search">بحث</string>
     <string name="community">المجتمع</string>
     <string name="library">المكتبة</string>
     <string name="settings">الإعدادات</string>
     <string name="english">English</string>
     <string name="arabic">العربية</string>
-    <string name="something_went_wrong">حدث خطأ ما</string>
+    <string name="something_went_wrong">حدث خطأ غير متوقع</string>
     <string name="greeting_morning">صباح الخير!</string>
     <string name="greeting_morning_with_name">صباح الخير، %1$s!</string>
     <string name="greeting_afternoon">مساء الخير!</string>
     <string name="greeting_afternoon_with_name">مساء الخير، %1$s!</string>
     <string name="greeting_evening">مساء الخير!</string>
     <string name="greeting_evening_with_name">مساء الخير، %1$s!</string>
-    <string name="episode_x">%s حلقات</string>
-    <string name="no_internet">تحقق من اتصالك، لا يوجد إنترنت</string>
+    <string name="episode_x">%s حلقة</string>
+    <string name="no_internet">لا يوجد اتصال بالإنترنت. يرجى التحقق من الشبكة</string>
     <string name="language">اللغة</string>
     <string name="username">الاسم</string>
-    <string name="theme">المظهر</string>
-    <string name="dark">مظلم</string>
-    <string name="light">فاتح</string>
-    <string name="follow_system">تتبع النظام</string>
+    <string name="theme">السمة</string>
+    <string name="dark">الوضع الداكن</string>
+    <string name="light">الوضع الفاتح</string>
+    <string name="follow_system">مطابقة إعدادات النظام</string>
+    <string name="coming_soon">قريبًا…</string>
+
 </resources>
