@@ -11,6 +11,7 @@ import com.amosh.pulse.core.domain.model.UserData
 import com.amosh.pulse.core.domain.useCases.GetHomeSectionsUseCase
 import com.amosh.pulse.core.domain.useCases.GetUserDataUseCase
 import com.amosh.pulse.core.ui.base.BaseViewModel
+import com.amosh.pulse.ui.mapper.SectionItemUiMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.delay
@@ -29,6 +30,7 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     private val getHomeSectionsUseCase: GetHomeSectionsUseCase,
     private val getUserDataUseCase: GetUserDataUseCase,
+    private val mapper: SectionItemUiMapper,
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher,
 ) : BaseViewModel<HomeContract.Event, HomeContract.State, HomeContract.Effect>() {
 
@@ -72,7 +74,9 @@ class HomeViewModel @Inject constructor(
                 currentPage += 1
                 when {
                     response.sections.isNullOrEmpty() -> HomeContract.HomeState.Empty
-                    else -> HomeContract.HomeState.Success(response.sections ?: listOf())
+                    else -> HomeContract.HomeState.Success(
+                        mapper.fromList(response.sections ?: listOf())
+                    )
                 }
             }
             .onEach { setState { copy(it) } }

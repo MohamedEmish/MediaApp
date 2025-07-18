@@ -21,3 +21,20 @@ fun <T> T?.orThrow(
     response: Response<*>? = null,
     httpException: HttpException = HttpException(response),
 ): T = this ?: throw httpException
+
+fun Boolean?.isTrue() = this != null && this == true
+
+fun Boolean?.isFalse() = this != null && this == false
+
+fun Boolean?.isNullOrFalse() = this == null || this == false
+
+inline fun <reified T : Enum<T>> stringToEnum(type: String): T? {
+    return enumValues<T>().firstOrNull { it.name.equals(type, ignoreCase = true) }
+}
+
+inline fun <reified T : Enum<T>>getEnumValue(strEnum: String?) = when {
+    strEnum.isNullOrEmpty() -> null
+    else -> stringToEnum<T>(strEnum)
+}
+
+fun Boolean?.isNullOrTrue() = this == null || this == true

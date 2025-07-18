@@ -12,9 +12,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.amosh.pulse.core.ui.theme.spacing
+import com.amosh.pulse.model.enums.ContentType
 
 @Composable
 fun HomeScreen(
@@ -33,24 +33,29 @@ fun HomeScreen(
         TopGreetingBar(userName = userDataState.value.userName)
         when (val result = uiState.value.state) {
             is HomeContract.HomeState.Loading -> {
-                ShimmerCategoryTabs()
+                Column {
+                    ShimmerCategoryTabs()
+                }
             }
 
             is HomeContract.HomeState.Success -> {
                 CategoryTabs(
                     categories = result.sections.mapNotNull { it.name }
                 ) {
-                    // TODO :: scroll to section
+                // TODO :: change results in below sections
                 }
 
                 Column(
                     modifier = Modifier
-                        .padding(
-                            horizontal = MaterialTheme.spacing.medium16,
-                            vertical = MaterialTheme.spacing.special12
-                        )
+                        .padding()
                         .verticalScroll(scrollState, true),
                 ) {
+                    TopItemsCarousel(
+                        sections = result.sections,
+                        selectedType = ContentType.PODCAST,
+                    ) {
+
+                    }
 //            NowPlayingBanner()
 //            Section(title = "اسمع قبل الناس", items = sampleItems)
 //            Section(title = "الحلقات الجديدة", items = sampleItems)

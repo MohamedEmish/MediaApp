@@ -1,9 +1,9 @@
 package com.amosh.pulse.ui.screens.homeScreen
 
-import com.amosh.pulse.core.domain.model.Section
 import com.amosh.pulse.core.ui.base.UiEffect
 import com.amosh.pulse.core.ui.base.UiEvent
 import com.amosh.pulse.core.ui.base.UiState
+import com.amosh.pulse.model.SectionsUiItem
 
 class HomeContract {
 
@@ -21,7 +21,7 @@ class HomeContract {
         data object Idle : HomeState()
         data object Loading : HomeState()
         data object Empty : HomeState()
-        data class Success(val sections: List<Section>) : HomeState()
+        data class Success(val sections: List<SectionsUiItem>) : HomeState()
     }
 
     sealed class Effect : UiEffect {

@@ -1,7 +1,7 @@
 package com.amosh.pulse.model
 
-sealed class ContentItem {
-    data class PodcastContent(
+sealed class ContentUiItem {
+    data class PodcastContentUi(
         val podcastId: String? = null,
         val name: String? = null,
         val description: String? = null,
@@ -12,9 +12,9 @@ sealed class ContentItem {
         val priority: String? = null,
         val popularityScore: String? = null,
         val score: String? = null
-    ) : ContentItem()
+    ) : ContentUiItem()
 
-    data class EpisodeContent(
+    data class EpisodeContentUi(
         val podcastPopularityScore: Int? = null,
         val podcastPriority: Int? = null,
         val episodeId: String? = null,
@@ -43,9 +43,9 @@ sealed class ContentItem {
         val paidEarlyAccessAudioUrl: String? = null,
         val paidExclusivityType: String? = null,
         val score: Double? = null
-    ) : ContentItem()
+    ) : ContentUiItem()
 
-    data class AudioBookContent(
+    data class AudioBookContentUi(
         val audiobookId: String? = null,
         val name: String? = null,
         val authorName: String? = null,
@@ -55,9 +55,9 @@ sealed class ContentItem {
         val language: String? = null,
         val releaseDate: String? = null,
         val score: Int? = null
-    ) : ContentItem()
+    ) : ContentUiItem()
 
-    data class AudioArticleContent(
+    data class AudioArticleContentUi(
         val articleId: String? = null,
         val name: String? = null,
         val authorName: String? = null,
@@ -66,5 +66,5 @@ sealed class ContentItem {
         val duration: Int? = null,
         val releaseDate: String? = null,
         val score: Int? = null
-    ) : ContentItem()
+    ) : ContentUiItem()
 }
