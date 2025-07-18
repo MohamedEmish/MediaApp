@@ -3,11 +3,11 @@ package com.amosh.pulse.ui.screens.homeScreen
 import androidx.lifecycle.viewModelScope
 import com.amosh.pulse.R
 import com.amosh.pulse.core.data.di.IoDispatcher
-import com.amosh.pulse.core.domain.model.Section
 import com.amosh.pulse.core.domain.model.UserData
 import com.amosh.pulse.core.domain.useCases.GetHomeSectionsUseCase
 import com.amosh.pulse.core.domain.useCases.GetUserDataUseCase
 import com.amosh.pulse.core.ui.base.BaseViewModel
+import com.amosh.pulse.model.SectionsUiItem
 import com.amosh.pulse.ui.mapper.SectionItemUiMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
@@ -34,7 +34,7 @@ class HomeViewModel @Inject constructor(
     val userDataState = _userDataState.asStateFlow()
 
     private var currentPage = 1
-    private val loadedSections: MutableList<Section> = mutableListOf()
+    private val loadedSections: MutableList<SectionsUiItem> = mutableListOf()
     private var totalPages: Int? = null
 
     init {
@@ -64,15 +64,20 @@ class HomeViewModel @Inject constructor(
         }
 
         getHomeSectionsUseCase.getHomeSections(currentPage)
-            .onStart { setState { copy(HomeContract.HomeState.Loading) } }
+            .onStart {
+                if (loadedSections.isEmpty()) {
+                    setState { copy(HomeContract.HomeState.Loading) }
+                }
+            }
             .map { response ->
                 totalPages = response.pagination?.totalPages
                 currentPage += 1
                 when {
-                    response.sections.isNullOrEmpty() -> HomeContract.HomeState.Empty
-                    else -> HomeContract.HomeState.Success(
-                        mapper.fromList(response.sections ?: listOf())
-                    )
+                    response.sections.isNullOrEmpty() && loadedSections.isEmpty() -> HomeContract.HomeState.Empty
+                    else -> {
+                        loadedSections.addAll(mapper.fromList(response.sections ?: listOf()))
+                        HomeContract.HomeState.Success(loadedSections)
+                    }
                 }
             }
             .onEach {
