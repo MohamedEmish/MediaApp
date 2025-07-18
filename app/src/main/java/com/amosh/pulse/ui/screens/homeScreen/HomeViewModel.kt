@@ -8,6 +8,7 @@ import com.amosh.pulse.core.domain.model.UserData
 import com.amosh.pulse.core.domain.useCases.GetHomeSectionsUseCase
 import com.amosh.pulse.core.domain.useCases.GetUserDataUseCase
 import com.amosh.pulse.core.ui.base.BaseViewModel
+import com.amosh.pulse.model.ContentUiItem
 import com.amosh.pulse.model.SectionsUiItem
 import com.amosh.pulse.ui.mapper.SectionItemUiMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -46,7 +47,7 @@ class HomeViewModel @Inject constructor(
     init {
         getStoredUserData()
         fetchSectionsEvent
-            .debounce(400)
+            .debounce(200)
             .onEach { shouldRefresh ->
                 if (connectionChecker.hasInternetConnection()) {
                     handleGetHomeSections(shouldRefresh)
@@ -93,17 +94,47 @@ class HomeViewModel @Inject constructor(
                     response.sections.isNullOrEmpty() && loadedSections.isEmpty() -> {
                         HomeContract.HomeState.Empty
                     }
+
                     else -> {
                         val newSections = mapper.fromList(response.sections ?: listOf())
-
                         newSections.forEach { newSection ->
-                            val existingSectionIndex = loadedSections.indexOfFirst { it.name == newSection.name }
+                            val existingSectionIndex = loadedSections.indexOfFirst {
+                                it.name == newSection.name && it.type == newSection.type
+                            }
+
                             if (existingSectionIndex != -1) {
                                 val existingSection = loadedSections[existingSectionIndex]
-                                val mergedContent = (existingSection.content?.toMutableList() ?: mutableListOf()).apply {
-                                    addAll(newSection.content ?: listOf())
+                                val existingContent =
+                                    existingSection.content?.toMutableList() ?: mutableListOf()
+                                val newContent = newSection.content ?: listOf()
+
+                                val uniqueNewContent = newContent.filterNot { newItem ->
+                                    existingContent.any { existingItem ->
+                                        when {
+                                            newItem is ContentUiItem.PodcastContentUi &&
+                                                    existingItem is ContentUiItem.PodcastContentUi ->
+                                                newItem.podcastId == existingItem.podcastId
+
+                                            newItem is ContentUiItem.EpisodeContentUi &&
+                                                    existingItem is ContentUiItem.EpisodeContentUi ->
+                                                newItem.episodeId == existingItem.episodeId
+
+                                            newItem is ContentUiItem.AudioBookContentUi &&
+                                                    existingItem is ContentUiItem.AudioBookContentUi ->
+                                                newItem.audiobookId == existingItem.audiobookId
+
+                                            newItem is ContentUiItem.AudioArticleContentUi &&
+                                                    existingItem is ContentUiItem.AudioArticleContentUi ->
+                                                newItem.articleId == existingItem.articleId
+
+                                            else -> false
+                                        }
+                                    }
                                 }
-                                loadedSections[existingSectionIndex] = existingSection.copy(content = mergedContent)
+
+                                loadedSections[existingSectionIndex] = existingSection.copy(
+                                    content = existingContent + uniqueNewContent
+                                )
                             } else {
                                 loadedSections.add(newSection)
                             }
