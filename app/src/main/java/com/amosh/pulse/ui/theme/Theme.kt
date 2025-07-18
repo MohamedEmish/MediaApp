@@ -11,6 +11,7 @@ import com.amosh.pulse.core.ui.theme.Spacing
 import com.amosh.pulse.core.ui.theme.Typography
 import com.amosh.pulse.core.ui.theme.platinum_100
 import com.amosh.pulse.core.ui.theme.platinum_600
+import com.amosh.pulse.core.ui.theme.platinum_800
 
 
 val lightColors = LightColors.apply {
@@ -28,11 +29,11 @@ val lightColors = LightColors.apply {
 
 val darkColors = DarkColors.apply {
     primary = primaryDark
-    onPrimary = platinum_100
+    onPrimary = platinum_800
     inversePrimary = colorPrimary
     secondary = accentDark
     onSecondary = black
-    backgroundColor = platinum_100
+    backgroundColor = platinum_800
     onBackgroundColor = white
     surface = platinum_600
     onSurface = black
@@ -40,14 +41,14 @@ val darkColors = DarkColors.apply {
 
 @Composable
 fun PulseTheme(
-    darkTheme: Boolean = isSystemInDarkTheme(),
+    darkTheme: Boolean?,
     content: @Composable () -> Unit,
 ) {
     CompositionLocalProvider(
         LocalSpacing provides Spacing(),
     ) {
         SimpleLabTheme(
-            darkTheme = darkTheme,
+            darkTheme = darkTheme ?: isSystemInDarkTheme(),
             typography = Typography,
             lightColors = lightColors,
             darkColors = darkColors,

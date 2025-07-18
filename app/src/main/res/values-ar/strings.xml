@@ -18,4 +18,9 @@
     <string name="episode_x">%s حلقات</string>
     <string name="no_internet">تحقق من اتصالك، لا يوجد إنترنت</string>
     <string name="language">اللغة</string>
+    <string name="username">الاسم</string>
+    <string name="theme">المظهر</string>
+    <string name="dark">مظلم</string>
+    <string name="light">فاتح</string>
+    <string name="follow_system">تتبع النظام</string>
 </resources>

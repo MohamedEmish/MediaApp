@@ -1,11 +1,13 @@
 package com.amosh.pulse.core.data
 
 import com.amosh.pulse.core.domain.Repository
+import com.amosh.pulse.core.domain.model.enums.SupportedLanguages
+import com.amosh.pulse.core.domain.model.enums.SupportedTheme
 import com.amosh.pulse.core.domain.source.InMemorySource
 import com.amosh.pulse.core.domain.source.LocalDataSource
 import com.amosh.pulse.core.domain.source.RemoteDataSource
 import com.amosh.pulse.core.domain.utils.mapDataOrThrow
-import com.amosh.zakwa.core.domain.model.enums.SupportedLanguages
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class RepositoryImpl @Inject constructor(
@@ -17,7 +19,7 @@ class RepositoryImpl @Inject constructor(
         remoteDataSource.getHomeSections(page)
             .mapDataOrThrow()
 
-    override fun getHomeSearchSections(query : String) =
+    override fun getHomeSearchSections(query: String) =
         remoteDataSource.getHomeSearchSections(query)
             .mapDataOrThrow()
 
@@ -26,6 +28,13 @@ class RepositoryImpl @Inject constructor(
 
     override suspend fun updateAppLanguage(language: SupportedLanguages) =
         localDataSource.updateAppLanguage(language)
+
+    override fun getAppTheme() =
+        localDataSource.getAppTheme()
+
+    override suspend fun updateAppTheme(theme: SupportedTheme) =
+        localDataSource.updateAppTheme(theme)
+
 
     override fun getUserData() =
         localDataSource.getUserData()

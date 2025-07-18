@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Contrast
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.outlined.KeyboardArrowDown
 import androidx.compose.material.icons.outlined.Language
@@ -55,6 +56,7 @@ import com.amosh.pulse.core.ui.extension.noRippleClickable
 import com.amosh.pulse.core.ui.theme.spacing
 import com.amosh.pulse.ui.screens.MainViewModel
 import com.amosh.pulse.ui.screens.changeLanguage.ChangeLanguageSheet
+import com.amosh.pulse.ui.screens.changeLanguage.ChangeThemeSheet
 import com.amosh.pulse.utils.LocalNavHostController
 import com.amosh.pulse.utils.getFilePathFromContentUri
 import com.amosh.pulse.utils.saveBitmapToFile
@@ -71,6 +73,8 @@ fun SettingsScreen(
     val userDataState = viewModel.userDataState.collectAsStateWithLifecycle()
 
     val showLanguageSheet = remember { mutableStateOf(false) }
+    val showThemeSheet = remember { mutableStateOf(false) }
+
     var userImage by rememberSaveable { mutableStateOf(userDataState.value.profilePic) }
     var userNameText by rememberSaveable { mutableStateOf(userDataState.value.userName) }
     val showFilePickerSheet = remember { mutableStateOf(false) }
@@ -174,7 +178,7 @@ fun SettingsScreen(
                 value = userNameText,
                 dataInputType = DataInputType.TEXT,
                 startIcon = Icons.Rounded.Person,
-                dataInputStatus =  DataInputStatus.ERROR
+                dataInputStatus = DataInputStatus.ERROR
             ) {
                 userNameText = it
                 viewModel.updateUserData(userNameText, userImage)
@@ -203,7 +207,28 @@ fun SettingsScreen(
                 thickness = MaterialTheme.spacing.special1
             )
 
-            Spacer(modifier = Modifier.weight(1f))
+            Spacer(modifier = Modifier.height(MaterialTheme.spacing.medium16))
+
+            SimpleLabTextViewCompose(
+                modifier = Modifier
+                    .padding(
+                        horizontal = MaterialTheme.spacing.small8,
+                        vertical = MaterialTheme.spacing.special12
+                    )
+                    .fillMaxWidth()
+                    .noRippleClickable { showThemeSheet.value = true },
+                text = stringResource(id = R.string.theme),
+                endIcon = Icons.Outlined.KeyboardArrowDown,
+                startIcon = Icons.Filled.Contrast,
+                endIconColor = MaterialTheme.colorScheme.secondary,
+                startIconColor = MaterialTheme.colorScheme.secondary,
+                alignEndIconToViewEnd = true
+            )
+
+            HorizontalDivider(
+                color = MaterialTheme.colorScheme.inversePrimary,
+                thickness = MaterialTheme.spacing.special1
+            )
 
         }
     }
@@ -216,6 +241,17 @@ fun SettingsScreen(
         },
         onDismissRequest = {
             showLanguageSheet.value = false
+        }
+    )
+
+    ChangeThemeSheet(
+        showThemeSheet,
+        onSelectTheme = {
+            viewModel.handleSetTheme(it)
+            showThemeSheet.value = false
+        },
+        onDismissRequest = {
+            showThemeSheet.value = false
         }
     )
 

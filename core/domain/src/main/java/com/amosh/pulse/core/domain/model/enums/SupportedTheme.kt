@@ -3,9 +3,10 @@ package com.amosh.pulse.core.domain.model.enums
 import android.text.TextUtils
 import java.util.Locale
 
-enum class SupportedLanguages {
-    EN,
-    AR;
+enum class SupportedTheme {
+    LIGHT,
+    DARK,
+    SYSTEM;
 
     companion object {
         /**
@@ -16,7 +17,7 @@ enum class SupportedLanguages {
         fun getEnum(strEnum: String) = when {
             TextUtils.isEmpty(strEnum) -> null
             else -> try {
-                valueOf(
+                SupportedTheme.valueOf(
                     strEnum.uppercase(
                         Locale.US
                     ).replace(" ".toRegex(), "_")

@@ -255,7 +255,7 @@ fun BigSquareItemView(item: SquareItem) {
                     Brush.verticalGradient(
                         colors = listOf(
                             Color.Transparent,
-                            Color.Black.copy(alpha = 0.7f)
+                            MaterialTheme.colorScheme.background.copy(alpha = 0.7f)
                         ),
                         startY = 0.4f
                     )
@@ -274,7 +274,8 @@ fun BigSquareItemView(item: SquareItem) {
                     color = MaterialTheme.colorScheme.onSecondary
                 ),
                 maxLines = 1,
-                overflow = TextOverflow.Ellipsis
+                overflow = TextOverflow.Ellipsis,
+                color = MaterialTheme.colorScheme.onBackground
             )
 
             Spacer(modifier = Modifier.height(MaterialTheme.spacing.small8))
@@ -288,7 +289,8 @@ fun BigSquareItemView(item: SquareItem) {
                 ),
                 maxLines = 1,
                 textAlign = TextAlign.End,
-                overflow = TextOverflow.Ellipsis
+                overflow = TextOverflow.Ellipsis,
+                color = MaterialTheme.colorScheme.onBackground
             )
         }
     }
@@ -302,12 +304,12 @@ fun SquareCard(
     alpha: Float = 1f
 ) {
     Card(
-        shape = RoundedCornerShape(16.dp),
+        shape = RoundedCornerShape(MaterialTheme.spacing.medium16),
         modifier = modifier
             .graphicsLayer { this.alpha = alpha }
             .height(MaterialTheme.spacing.special140),
         elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
-        colors = CardDefaults.cardColors(containerColor = Color.White)
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.background)
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -315,21 +317,23 @@ fun SquareCard(
         ) {
             Column(
                 modifier = Modifier
-                    .padding(16.dp)
+                    .padding(MaterialTheme.spacing.medium16)
                     .weight(1f)
             ) {
-                Spacer(modifier = Modifier.height(8.dp))
+                Spacer(modifier = Modifier.height(MaterialTheme.spacing.small8))
                 Text(
                     text = item.title,
                     style = MaterialTheme.typography.bodyMedium,
                     maxLines = 2,
-                    overflow = TextOverflow.Ellipsis
+                    overflow = TextOverflow.Ellipsis,
+                    color = MaterialTheme.colorScheme.onBackground
                 )
                 Text(
                     text = item.description,
                     style = MaterialTheme.typography.bodySmall,
                     maxLines = 3,
-                    overflow = TextOverflow.Ellipsis
+                    overflow = TextOverflow.Ellipsis,
+                    color = MaterialTheme.colorScheme.onBackground
                 )
             }
 

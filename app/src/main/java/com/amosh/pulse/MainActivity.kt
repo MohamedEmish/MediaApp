@@ -10,20 +10,15 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountBalance
-import androidx.compose.material.icons.filled.AttachMoney
 import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.MoreHoriz
 import androidx.compose.material.icons.filled.PeopleAlt
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -35,15 +30,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.core.text.layoutDirection
-import androidx.core.view.WindowCompat
 import androidx.navigation.compose.rememberNavController
 import com.amosh.pulse.common.BottomNavItem
 import com.amosh.pulse.common.KeyboardHelper
 import com.amosh.pulse.common.onBackPressed
 import com.amosh.pulse.core.domain.model.SimpleLabMessage
+import com.amosh.pulse.core.domain.model.enums.SupportedTheme.DARK
+import com.amosh.pulse.core.domain.model.enums.SupportedTheme.LIGHT
+import com.amosh.pulse.core.domain.model.enums.SupportedTheme.SYSTEM
 import com.amosh.pulse.core.domain.utils.isNull
 import com.amosh.pulse.core.ui.components.action.SimpleLabMessageComponent
 import com.amosh.pulse.ui.elements.BottomNavigationBar
@@ -72,6 +68,8 @@ class MainActivity : ComponentActivity() {
             val currentLanguage by mainViewModel.currentLanguage.collectAsState()
             setLocale(LocalContext.current, currentLanguage.locale.language)
 
+            val currentTheme by mainViewModel.currentTheme.collectAsState()
+
             if (currentLanguage.isNull().not()) {
                 val navController = rememberNavController()
                 var showBottomNav by remember { mutableStateOf(true) }
@@ -96,7 +94,13 @@ class MainActivity : ComponentActivity() {
                             },
                     LocalNavHostController provides navController
                 ) {
-                    PulseTheme {
+                    PulseTheme(
+                        darkTheme = when(currentTheme) {
+                            LIGHT -> false
+                            DARK -> true
+                            SYSTEM -> null
+                        }
+                    ) {
                         LocalNavHostController.current.addOnDestinationChangedListener { _, _, _ ->
                             KeyboardHelper.hide(this@MainActivity)
                         }

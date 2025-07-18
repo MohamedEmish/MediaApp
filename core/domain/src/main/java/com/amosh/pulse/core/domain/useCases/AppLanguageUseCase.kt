@@ -1,7 +1,7 @@
 package com.amosh.pulse.core.domain.useCases
 
 import com.amosh.pulse.core.domain.Repository
-import com.amosh.zakwa.core.domain.model.enums.SupportedLanguages
+import com.amosh.pulse.core.domain.model.enums.SupportedLanguages
 import javax.inject.Inject
 
 class AppLanguageUseCase @Inject constructor(

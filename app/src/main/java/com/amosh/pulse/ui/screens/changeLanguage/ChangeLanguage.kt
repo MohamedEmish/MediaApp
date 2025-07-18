@@ -16,11 +16,11 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import com.amosh.pulse.core.domain.model.enums.SupportedLanguages
 import com.amosh.pulse.core.ui.components.dataViewer.SimpleLabTextViewCompose
 import com.amosh.pulse.core.ui.extension.noRippleClickable
 import com.amosh.pulse.core.ui.theme.spacing
 import com.amosh.pulse.ui.ext.textRes
-import com.amosh.zakwa.core.domain.model.enums.SupportedLanguages
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -77,6 +77,7 @@ private fun LanguageListItem(
             .fillMaxWidth()
             .noRippleClickable { onClick.invoke(lang) },
         text = stringResource(id = lang.textRes),
+        textColor = MaterialTheme.colorScheme.onBackground
     )
 
     HorizontalDivider(

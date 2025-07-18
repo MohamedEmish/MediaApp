@@ -1,14 +1,11 @@
-package com.amosh.pulse.core.ui.components.dialogs.filePicker
+package com.amosh.pulse.ui.screens.changeLanguage
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AttachFile
-import androidx.compose.material.icons.filled.Camera
-import androidx.compose.material.icons.filled.CameraAlt
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
@@ -18,26 +15,24 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
-import com.amosh.pulse.core.ui.R
+import com.amosh.pulse.core.domain.model.enums.SupportedTheme
 import com.amosh.pulse.core.ui.components.dataViewer.SimpleLabTextViewCompose
 import com.amosh.pulse.core.ui.extension.noRippleClickable
-import com.amosh.pulse.core.ui.theme.LightColors.secondary
 import com.amosh.pulse.core.ui.theme.spacing
+import com.amosh.pulse.ui.ext.textRes
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun FilePickerBottomSheet(
-    openPickerState: MutableState<Boolean>,
-    showGallery: Boolean,
-    showCamera: Boolean,
-    showPdf: Boolean,
-    onSelectType: (FileType) -> Unit,
+fun ChangeThemeSheet(
+    openLThemeSheetState: MutableState<Boolean>,
+    themeList: List<SupportedTheme> = SupportedTheme.entries,
+    onSelectTheme: (SupportedTheme) -> Unit,
     onDismissRequest: (Boolean) -> Unit,
 ) {
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
-    if (openPickerState.value) {
+    if (openLThemeSheetState.value) {
         ModalBottomSheet(
             sheetState = sheetState,
             onDismissRequest = { onDismissRequest.invoke(false) },
@@ -53,33 +48,16 @@ fun FilePickerBottomSheet(
                     ),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                if (showCamera) {
-                    SectionView(
-                        text = stringResource(id = R.string.camera),
-                        startIcon = Icons.Filled.CameraAlt,
-                        type = FileType.CAMERA,
-                        onSelectType
-                    )
+                LazyColumn(
+                    modifier = Modifier.fillMaxWidth(),
+                ) {
+                    items(themeList.size) { position ->
+                        ThemeListItem(
+                            theme = themeList[position],
+                            onClick = { onSelectTheme.invoke(it) }
+                        )
+                    }
                 }
-
-                if (showGallery) {
-                    SectionView(
-                        text = stringResource(id = R.string.gallery),
-                        startIcon = Icons.Filled.Camera,
-                        type = FileType.GALLERY,
-                        onSelectType
-                    )
-                }
-
-                if (showPdf) {
-                    SectionView(
-                        text = stringResource(id = R.string.pdf_file),
-                        startIcon = Icons.Filled.AttachFile,
-                        type = FileType.PDF,
-                        onSelectType
-                    )
-                }
-
                 Spacer(Modifier.size(MaterialTheme.spacing.xLarge32))
             }
         }
@@ -87,11 +65,9 @@ fun FilePickerBottomSheet(
 }
 
 @Composable
-private fun SectionView(
-    text: String,
-    startIcon: ImageVector,
-    type: FileType,
-    onSelectType: (FileType) -> Unit,
+private fun ThemeListItem(
+    theme: SupportedTheme,
+    onClick: (SupportedTheme) -> Unit,
 ) {
     SimpleLabTextViewCompose(
         modifier = Modifier
@@ -100,12 +76,8 @@ private fun SectionView(
                 vertical = MaterialTheme.spacing.special12
             )
             .fillMaxWidth()
-            .noRippleClickable {
-                onSelectType.invoke(type)
-            },
-        text = text,
-        startIcon = startIcon,
-        startIconColor = secondary,
+            .noRippleClickable { onClick.invoke(theme) },
+        text = stringResource(id = theme.textRes),
         textColor = MaterialTheme.colorScheme.onBackground
     )
 

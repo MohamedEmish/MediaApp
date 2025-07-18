@@ -137,7 +137,8 @@ fun QueueItemView(item: QueueItem) {
                 text = item.title,
                 style = MaterialTheme.typography.bodyMedium,
                 maxLines = 1,
-                overflow = TextOverflow.Ellipsis
+                overflow = TextOverflow.Ellipsis,
+                color = MaterialTheme.colorScheme.onBackground
             )
             Row(
                 modifier = Modifier.fillMaxWidth()
