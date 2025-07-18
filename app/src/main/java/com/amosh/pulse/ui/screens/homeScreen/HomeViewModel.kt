@@ -3,6 +3,7 @@ package com.amosh.pulse.ui.screens.homeScreen
 import androidx.lifecycle.viewModelScope
 import com.amosh.pulse.R
 import com.amosh.pulse.core.data.di.IoDispatcher
+import com.amosh.pulse.core.domain.ConnectionChecker
 import com.amosh.pulse.core.domain.model.UserData
 import com.amosh.pulse.core.domain.useCases.GetHomeSectionsUseCase
 import com.amosh.pulse.core.domain.useCases.GetUserDataUseCase
@@ -19,6 +20,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -26,6 +28,7 @@ class HomeViewModel @Inject constructor(
     private val getHomeSectionsUseCase: GetHomeSectionsUseCase,
     private val getUserDataUseCase: GetUserDataUseCase,
     private val mapper: SectionItemUiMapper,
+    private val connectionChecker: ConnectionChecker,
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher,
 ) : BaseViewModel<HomeContract.Event, HomeContract.State, HomeContract.Effect>() {
 
@@ -38,7 +41,7 @@ class HomeViewModel @Inject constructor(
 
     init {
         getStoredUserData()
-        handleGetHomeSections(false)
+        checkConnectionBeforeCall(false)
     }
 
     override fun createInitialState(): HomeContract.State {
@@ -49,7 +52,7 @@ class HomeViewModel @Inject constructor(
 
     override fun handleEvent(event: HomeContract.Event) {
         when (event) {
-            is HomeContract.Event.OnFetchHomeSections -> handleGetHomeSections(shouldRefresh = event.shouldRefresh)
+            is HomeContract.Event.OnFetchHomeSections -> checkConnectionBeforeCall(shouldRefresh = event.shouldRefresh)
         }
     }
 
@@ -100,4 +103,10 @@ class HomeViewModel @Inject constructor(
         .flowOn(ioDispatcher)
         .launchIn(viewModelScope)
 
+    private fun checkConnectionBeforeCall(shouldRefresh: Boolean) = viewModelScope.launch {
+        if (connectionChecker.hasInternetConnection()) {
+            handleGetHomeSections(shouldRefresh)
+        } else setState { copy(HomeContract.HomeState.NoInternet) }
+
+    }
 }

@@ -19,6 +19,7 @@ class HomeContract {
 
     sealed class HomeState {
         data object Idle : HomeState()
+        data object NoInternet : HomeState()
         data object Loading : HomeState()
         data object Empty : HomeState()
         data class Success(val sections: List<SectionsUiItem>) : HomeState()

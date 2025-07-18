@@ -14,6 +14,7 @@ class SearchContract {
 
     sealed class SearchState {
         data object Idle : SearchState()
+        data object NoInternet : SearchState()
         data object Loading : SearchState()
         data object Empty : SearchState()
         data class Success(val content: List<ContentUiItem?>) : SearchState()

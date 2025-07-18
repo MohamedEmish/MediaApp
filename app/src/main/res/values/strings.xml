@@ -16,5 +16,6 @@
     <string name="greeting_evening">Good evening!</string>
     <string name="greeting_evening_with_name">Good evening, %1$s!</string>
     <string name="episode_x">%s episodes</string>
+    <string name="no_internet">Check your connection, no internet</string>
 
 </resources>

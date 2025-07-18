@@ -17,6 +17,7 @@ import com.amosh.pulse.core.domain.constants.Constants.VIEW_TYPE_BIG_SQUARE
 import com.amosh.pulse.core.domain.constants.Constants.VIEW_TYPE_QUEUE
 import com.amosh.pulse.core.domain.constants.Constants.VIEW_TYPE_SQUARE
 import com.amosh.pulse.model.enums.ContentType
+import com.amosh.pulse.ui.screens.NoInternetScreen
 import com.amosh.pulse.ui.screens.homeScreen.subViews.CategoryTabs
 import com.amosh.pulse.ui.screens.homeScreen.subViews.GridView
 import com.amosh.pulse.ui.screens.homeScreen.subViews.QueueView
@@ -100,6 +101,8 @@ fun HomeScreen(
                     }
                 }
             }
+
+            is HomeContract.HomeState.NoInternet -> NoInternetScreen()
 
             else -> HomeScreenEmptyState()
         }

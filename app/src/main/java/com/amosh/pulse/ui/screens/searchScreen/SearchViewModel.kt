@@ -3,6 +3,7 @@ package com.amosh.pulse.ui.screens.searchScreen
 import androidx.lifecycle.viewModelScope
 import com.amosh.pulse.R
 import com.amosh.pulse.core.data.di.IoDispatcher
+import com.amosh.pulse.core.domain.ConnectionChecker
 import com.amosh.pulse.core.domain.useCases.GetHomeSectionsUseCase
 import com.amosh.pulse.core.ui.base.BaseViewModel
 import com.amosh.pulse.ui.mapper.SearchItemUiMapper
@@ -28,6 +29,7 @@ import javax.inject.Inject
 class SearchViewModel @Inject constructor(
     private val getHomeSectionsUseCase: GetHomeSectionsUseCase,
     private val mapper: SearchItemUiMapper,
+    private val connectionChecker: ConnectionChecker,
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher,
 ) : BaseViewModel<SearchContract.Event, SearchContract.State, SearchContract.Effect>() {
 
@@ -48,6 +50,13 @@ class SearchViewModel @Inject constructor(
         when (event) {
             is SearchContract.Event.OnSearch -> _searchQuery.value = event.query
         }
+    }
+
+    private fun checkConnectionBeforeCall(query: String) = viewModelScope.launch {
+        if (connectionChecker.hasInternetConnection()) {
+            searchForResults(query)
+        } else setState { copy(SearchContract.SearchState.NoInternet) }
+
     }
 
     private fun searchForResults(query: String) {
@@ -84,7 +93,7 @@ class SearchViewModel @Inject constructor(
             .filter { it.isNotBlank() }
             .distinctUntilChanged()
             .collectLatest { query ->
-                searchForResults(query)
+                checkConnectionBeforeCall(query)
             }
     }
 }
