@@ -96,3 +96,11 @@ Senior Android Engineer
 
 📧 Emish52020@gmail.com
 
+---
+
+## 📸 Screenshots
+
+![Home Screen](screenshots/1.png)
+![Comunity Screen](screenshots/2.png)
+![Settings Screen](screenshots/4.png)
+
