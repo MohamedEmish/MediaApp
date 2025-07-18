@@ -121,7 +121,7 @@ All UI is built with Jetpack Compose, with lifecycle-aware ViewModels managing t
 ---
 
 👨‍💻 Author  
-Mohamed Emish  
+Mohamed Fathi Emish  
 Senior Android Engineer  
 📍 Riyadh, Saudi Arabia  
 📧 Emish52020@gmail.com
@@ -178,7 +178,7 @@ Senior Android Engineer
 ---
 
 ✍️ المؤلف  
-محمد فتحي "Emish"  
+محمد فتحي عميش  
 مهندس أندرويد أول  
 📍 الرياض، المملكة العربية السعودية  
 📧 Emish52020@gmail.com
