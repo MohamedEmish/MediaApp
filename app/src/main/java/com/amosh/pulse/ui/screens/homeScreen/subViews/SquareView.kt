@@ -22,7 +22,7 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
@@ -67,7 +67,8 @@ fun SquareView(
     modifier: Modifier = Modifier,
     section: SectionsUiItem,
     selectedType: ContentType,
-    isBig: Boolean
+    isBig: Boolean,
+    onEndReached: () -> Unit,
 ) {
     val items = when (selectedType) {
         PODCAST -> section.content?.filterIsInstance<ContentUiItem.PodcastContentUi>()
@@ -89,12 +90,14 @@ fun SquareView(
                 sectionName = section.name.orEmpty(),
                 items = items,
                 modifier = modifier,
+                onEndReached = onEndReached
             )
         } else {
             SquareViewData(
                 sectionName = section.name.orEmpty(),
                 items = items,
                 modifier = modifier,
+                onEndReached = onEndReached
             )
         }
     }
@@ -105,6 +108,7 @@ fun SquareViewData(
     sectionName: String,
     items: List<SquareItem>,
     modifier: Modifier = Modifier,
+    onEndReached: () -> Unit,
 ) {
     // For infinite scrolling
     val infiniteItems = remember { items + items + items }
@@ -146,8 +150,13 @@ fun SquareViewData(
                 ),
                 horizontalArrangement = Arrangement.spacedBy(itemSpacing)
             ) {
-                items(infiniteItems) { item ->
+                itemsIndexed(infiniteItems) { index, item ->
                     val currentIndex = infiniteItems.indexOf(item) % items.size
+                    if (index == items.lastIndex) {
+                        LaunchedEffect(Unit) {
+                            onEndReached()
+                        }
+                    }
                     Box(
                         modifier = Modifier
                             .width(itemWidth)
@@ -201,6 +210,7 @@ fun BigSquareViewData(
     sectionName: String,
     items: List<SquareItem>,
     modifier: Modifier = Modifier,
+    onEndReached: () -> Unit,
 ) {
     val screenWidth = LocalConfiguration.current.screenWidthDp.dp
     val spacing = MaterialTheme.spacing.medium16
@@ -222,7 +232,12 @@ fun BigSquareViewData(
             contentPadding = PaddingValues(MaterialTheme.spacing.medium16),
             horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.small8)
         ) {
-            items(items) { item ->
+            itemsIndexed(items) { index, item ->
+                if (index == items.lastIndex) {
+                    LaunchedEffect(Unit) {
+                        onEndReached()
+                    }
+                }
                 Box(modifier = Modifier.width(screenWidth - spacing.times(2))) {
                     BigSquareItemView(item = item)
                 }

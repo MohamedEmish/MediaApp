@@ -81,9 +81,7 @@ fun HomeScreen(
             is HomeContract.HomeState.Success -> {
                 CategoryTabs(
                     categories = result.sections.mapNotNull { it.name }
-                ) {
-                    // TODO :: change results in below sections
-                }
+                ) { }
 
                 Column(
                     modifier = Modifier
@@ -96,14 +94,18 @@ fun HomeScreen(
                                     section = it,
                                     selectedType = it.contentType ?: ContentType.PODCAST,
                                     isBig = false
-                                )
+                                ) {
+                                    viewModel.setEvent(HomeContract.Event.OnFetchHomeSections(false))
+                                }
                             }
 
                             VIEW_TYPE_QUEUE -> {
                                 QueueView(
                                     section = it,
                                     selectedType = it.contentType ?: ContentType.PODCAST,
-                                )
+                                ) {
+                                    viewModel.setEvent(HomeContract.Event.OnFetchHomeSections(false))
+                                }
                             }
 
 
@@ -112,7 +114,9 @@ fun HomeScreen(
                                     section = it,
                                     selectedType = it.contentType ?: ContentType.PODCAST,
                                     lines = 2
-                                )
+                                ) {
+                                    viewModel.setEvent(HomeContract.Event.OnFetchHomeSections(false))
+                                }
                             }
 
                             VIEW_TYPE_BIG_SQUARE -> {
@@ -120,7 +124,9 @@ fun HomeScreen(
                                     section = it,
                                     selectedType = it.contentType ?: ContentType.PODCAST,
                                     isBig = true
-                                )
+                                ) {
+                                    viewModel.setEvent(HomeContract.Event.OnFetchHomeSections(false))
+                                }
                             }
 
                         }

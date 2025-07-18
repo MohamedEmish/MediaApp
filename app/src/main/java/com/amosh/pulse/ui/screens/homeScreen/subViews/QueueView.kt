@@ -19,11 +19,12 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
@@ -50,6 +51,7 @@ fun QueueView(
     modifier: Modifier = Modifier,
     section: SectionsUiItem,
     selectedType: ContentType,
+    onEndReached: () -> Unit, // NEW
 ) {
     val items = when (selectedType) {
         PODCAST -> section.content?.filterIsInstance<ContentUiItem.PodcastContentUi>()
@@ -70,6 +72,7 @@ fun QueueView(
             sectionName = section.name.orEmpty(),
             items = items,
             modifier = modifier,
+            onEndReached = onEndReached
         )
     }
 }
@@ -80,6 +83,7 @@ fun QueueViewData(
     sectionName: String,
     items: List<QueueItem>,
     modifier: Modifier = Modifier,
+    onEndReached: () -> Unit,
 ) {
     Column {
         Text(
@@ -98,7 +102,14 @@ fun QueueViewData(
             contentPadding = PaddingValues(MaterialTheme.spacing.medium16),
             horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.small8)
         ) {
-            items(items) { item -> QueueItemView(item = item) }
+            itemsIndexed(items) { index, item ->
+                if (index == items.lastIndex) {
+                    LaunchedEffect(Unit) {
+                        onEndReached()
+                    }
+                }
+                QueueItemView(item = item)
+            }
         }
     }
 }

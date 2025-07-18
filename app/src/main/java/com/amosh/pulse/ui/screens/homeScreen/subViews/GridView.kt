@@ -19,13 +19,14 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
@@ -54,6 +55,7 @@ fun GridView(
     section: SectionsUiItem,
     selectedType: ContentType,
     lines: Int,
+    onEndReached: () -> Unit,
 ) {
     val items = when (selectedType) {
         PODCAST -> section.content?.filterIsInstance<ContentUiItem.PodcastContentUi>()
@@ -74,6 +76,7 @@ fun GridView(
             sectionName = section.name.orEmpty(),
             items = items,
             lines = lines,
+            onEndReached = onEndReached
         )
     }
 }
@@ -83,6 +86,7 @@ fun GridViewData(
     sectionName: String,
     items: List<GridItem>,
     lines: Int,
+    onEndReached: () -> Unit,
 ) {
     val screenWidth = LocalConfiguration.current.screenWidthDp.dp
     val cardWidth = if (sectionName.isNotEmpty()) screenWidth * 0.8f else screenWidth * 0.9f
@@ -109,7 +113,12 @@ fun GridViewData(
             contentPadding = PaddingValues(MaterialTheme.spacing.medium16),
             horizontalArrangement = Arrangement.spacedBy(itemSpacing)
         ) {
-            items(pairedItems) { pair ->
+            itemsIndexed(pairedItems) { index, pair ->
+                if (index == pairedItems.lastIndex) {
+                    LaunchedEffect(Unit) {
+                        onEndReached()
+                    }
+                }
                 Column(
                     verticalArrangement = Arrangement.spacedBy(itemSpacing),
                     modifier = Modifier

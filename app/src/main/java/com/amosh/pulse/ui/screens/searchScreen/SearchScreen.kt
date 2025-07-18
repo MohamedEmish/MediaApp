@@ -114,7 +114,9 @@ fun SearchScreen(
                         section = SectionsUiItem(content = result.content.filterNotNullItems()),
                         selectedType = ContentType.PODCAST,
                         lines = result.content.size
-                    )
+                    ) {
+
+                    }
                 }
             }
 
