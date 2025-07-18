@@ -13,7 +13,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.amosh.pulse.core.ui.theme.spacing
+import com.amosh.pulse.core.domain.constants.Constants.VIEW_TYPE_QUEUE
+import com.amosh.pulse.core.domain.constants.Constants.VIEW_TYPE_SQUARE
 import com.amosh.pulse.model.enums.ContentType
 
 @Composable
@@ -28,14 +29,14 @@ fun HomeScreen(
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
-            .padding(bottom = MaterialTheme.spacing.special72)
     ) {
         TopGreetingBar(userName = userDataState.value.userName)
         when (val result = uiState.value.state) {
             is HomeContract.HomeState.Loading -> {
                 Column {
                     ShimmerCategoryTabs()
-                    ShimmerPeekingCardsCarousel()
+                    ShimmerSquareView()
+                    ShimmerQueueView()
                 }
             }
 
@@ -51,12 +52,24 @@ fun HomeScreen(
                         .padding()
                         .verticalScroll(scrollState, true),
                 ) {
-                    TopItemsCarousel(
-                        sections = result.sections,
-                        selectedType = ContentType.PODCAST,
-                    ) {
+                    result.sections.forEach {
+                        when (it.type) {
+                            VIEW_TYPE_SQUARE -> {
+                                SquareView(
+                                    section = it,
+                                    selectedType = it.contentType ?: ContentType.PODCAST,
+                                )
+                            }
 
+                            VIEW_TYPE_QUEUE -> {
+                                QueueView(
+                                    section = it,
+                                    selectedType = it.contentType ?: ContentType.PODCAST,
+                                )
+                            }
+                        }
                     }
+
 //            NowPlayingBanner()
 //            Section(title = "اسمع قبل الناس", items = sampleItems)
 //            Section(title = "الحلقات الجديدة", items = sampleItems)

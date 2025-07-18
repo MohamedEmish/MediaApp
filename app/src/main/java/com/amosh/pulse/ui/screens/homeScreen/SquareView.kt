@@ -7,7 +7,6 @@ import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.snapping.rememberSnapFlingBehavior
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -56,41 +55,43 @@ import com.amosh.pulse.model.enums.ContentType.AUDIO_ARTICLE
 import com.amosh.pulse.model.enums.ContentType.AUDIO_BOOK
 import com.amosh.pulse.model.enums.ContentType.EPISODE
 import com.amosh.pulse.model.enums.ContentType.PODCAST
+import com.amosh.pulse.model.enums.SquareItem
+import com.amosh.pulse.ui.ext.mapToSquareItem
 
 @Composable
-fun TopItemsCarousel(
+fun SquareView(
     modifier: Modifier = Modifier,
-    sections: List<SectionsUiItem>,
+    section: SectionsUiItem,
     selectedType: ContentType,
-    onItemClick: (String) -> Unit = {}
 ) {
-    when (selectedType) {
-        PODCAST -> {
-            val items = sections
-                .mapNotNull { it.content }
-                .flatten()
-                .filterIsInstance<ContentUiItem.PodcastContentUi>()
+    val items = when (selectedType) {
+        PODCAST -> section.content?.filterIsInstance<ContentUiItem.PodcastContentUi>()
+            ?.map { it.mapToSquareItem() }
 
-            if (items.isNotEmpty()) {
-                PeekingCardsCarousel(
-                    items = items,
-                    modifier = modifier,
-                    onItemClick = { podcast -> onItemClick(podcast.podcastId ?: "") }
-                )
-            }
-        }
+        EPISODE -> section.content?.filterIsInstance<ContentUiItem.EpisodeContentUi>()
+            ?.map { it.mapToSquareItem() }
 
-        EPISODE -> sections.filterIsInstance<ContentUiItem.EpisodeContentUi>()
-        AUDIO_BOOK -> sections.filterIsInstance<ContentUiItem.AudioBookContentUi>()
-        AUDIO_ARTICLE -> sections.filterIsInstance<ContentUiItem.AudioArticleContentUi>()
+        AUDIO_BOOK -> section.content?.filterIsInstance<ContentUiItem.AudioBookContentUi>()
+            ?.map { it.mapToSquareItem() }
+
+        AUDIO_ARTICLE -> section.content?.filterIsInstance<ContentUiItem.AudioArticleContentUi>()
+            ?.map { it.mapToSquareItem() }
+    }
+
+    if (!items.isNullOrEmpty()) {
+        SquareViewData(
+            sectionName = section.name.orEmpty(),
+            items = items,
+            modifier = modifier,
+        )
     }
 }
 
 @Composable
-fun PeekingCardsCarousel(
-    items: List<ContentUiItem.PodcastContentUi>,
+fun SquareViewData(
+    sectionName: String,
+    items: List<SquareItem>,
     modifier: Modifier = Modifier,
-    onItemClick: (ContentUiItem.PodcastContentUi) -> Unit
 ) {
     // For infinite scrolling
     val infiniteItems = remember { items + items + items }
@@ -101,87 +102,92 @@ fun PeekingCardsCarousel(
     val peekWidth = screenWidth * 0.15f
     val itemWidth = fullCardWidth + peekWidth  // Each item takes card width + peek
     val itemSpacing = MaterialTheme.spacing.small8 // Add spacing between items
-
-    Box(
-        modifier = modifier
-            .fillMaxWidth()
-            .height(MaterialTheme.spacing.special156)
-            .padding(
+    Column {
+        Text(
+            modifier = Modifier.padding(
                 horizontal = MaterialTheme.spacing.medium16,
-                vertical = MaterialTheme.spacing.small8
-            )
-            .background(platinum_150, RoundedCornerShape(MaterialTheme.spacing.medium16)),
-    ) {
-        LazyRow(
-            state = listState,
-            flingBehavior = rememberSnapFlingBehavior(lazyListState = listState),
-            modifier = Modifier
-                .fillMaxSize()
-                .clip(RoundedCornerShape(MaterialTheme.spacing.medium16)),
-            contentPadding = PaddingValues(
-                horizontal = MaterialTheme.spacing.medium16,
-                vertical = MaterialTheme.spacing.small8
+                vertical = MaterialTheme.spacing.special4
             ),
-            horizontalArrangement = Arrangement.spacedBy(itemSpacing)
+            text = sectionName,
+            style = MaterialTheme.typography.titleMedium,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
+            color = MaterialTheme.colorScheme.onBackground
+        )
+
+        Box(
+            modifier = modifier
+                .fillMaxWidth()
+                .height(MaterialTheme.spacing.special156)
+                .padding(
+                    vertical = MaterialTheme.spacing.small8
+                )
         ) {
-            items(infiniteItems) { item ->
-                val currentIndex = infiniteItems.indexOf(item) % items.size
-                Box(
-                    modifier = Modifier
-                        .width(itemWidth)
-                        .fillMaxHeight(),
-                ) {
-                    // Card 3 (peeking from right, deepest)
-                    if (currentIndex + 2 < items.size) {
-                        PodcastCard(
-                            item = items[(currentIndex + 2) % items.size],
+            LazyRow(
+                state = listState,
+                flingBehavior = rememberSnapFlingBehavior(lazyListState = listState),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .clip(RoundedCornerShape(MaterialTheme.spacing.medium16)),
+                contentPadding = PaddingValues(
+                    horizontal = MaterialTheme.spacing.medium16,
+                    vertical = MaterialTheme.spacing.small8
+                ),
+                horizontalArrangement = Arrangement.spacedBy(itemSpacing)
+            ) {
+                items(infiniteItems) { item ->
+                    val currentIndex = infiniteItems.indexOf(item) % items.size
+                    Box(
+                        modifier = Modifier
+                            .width(itemWidth)
+                            .fillMaxHeight(),
+                    ) {
+                        val thirdCard = items[(currentIndex + 2) % items.size]
+                        SquareCard(
+                            item = thirdCard,
                             modifier = Modifier
                                 .width(fullCardWidth)
                                 .align(Alignment.CenterStart)
                                 .offset(x = peekWidth)
                                 .zIndex(0f),
                         )
-                    }
 
-                    // Card 2 (middle, peeking from right)
-                    if (currentIndex + 1 < items.size) {
-                        PodcastCard(
-                            item = items[(currentIndex + 1) % items.size],
+                        val secondCard = items[(currentIndex + 1) % items.size]
+                        SquareCard(
+                            item = secondCard,
                             modifier = Modifier
                                 .width(fullCardWidth)
                                 .align(Alignment.CenterStart)
-                                .offset(x = peekWidth.div(2))
+                                .offset(x = peekWidth / 2)
                                 .zIndex(1f),
                         )
-                    }
 
-                    // Current Card (main card)
-                    PodcastCard(
-                        item = items[currentIndex % items.size],
-                        modifier = Modifier
-                            .width(fullCardWidth)
-                            .align(Alignment.CenterStart)
-                            .zIndex(2f)
-                            .clickable { onItemClick(items[currentIndex % items.size]) },
-                    )
+                        val currentCard = items[currentIndex]
+                        SquareCard(
+                            item = currentCard,
+                            modifier = Modifier
+                                .width(fullCardWidth)
+                                .align(Alignment.CenterStart)
+                                .zIndex(2f)
+                        )
+                    }
                 }
             }
-        }
 
-        // Handle infinite scroll reset
-        LaunchedEffect(listState.firstVisibleItemIndex) {
-            if (listState.firstVisibleItemIndex >= items.size * 2) {
-                listState.scrollToItem(items.size)
-            } else if (listState.firstVisibleItemIndex <= 0) {
-                listState.scrollToItem(items.size)
+            LaunchedEffect(listState.firstVisibleItemIndex) {
+                if (listState.firstVisibleItemIndex >= items.size * 2) {
+                    listState.scrollToItem(items.size)
+                } else if (listState.firstVisibleItemIndex <= 0) {
+                    listState.scrollToItem(items.size)
+                }
             }
         }
     }
 }
 
 @Composable
-fun PodcastCard(
-    item: ContentUiItem.PodcastContentUi,
+fun SquareCard(
+    item: SquareItem,
     modifier: Modifier = Modifier,
     alpha: Float = 1f
 ) {
@@ -204,36 +210,34 @@ fun PodcastCard(
             ) {
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
-                    text = item.name ?: "",
+                    text = item.title,
                     style = MaterialTheme.typography.bodyMedium,
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis
                 )
                 Text(
-                    text = item.description ?: "",
+                    text = item.description,
                     style = MaterialTheme.typography.bodySmall,
-                    maxLines = 2,
+                    maxLines = 3,
                     overflow = TextOverflow.Ellipsis
                 )
             }
 
-            item.avatarUrl?.let {
-                AsyncImage(
-                    model = it,
-                    contentDescription = null,
-                    modifier = Modifier
-                        .height(MaterialTheme.spacing.special124)
-                        .width(MaterialTheme.spacing.special124)
-                        .clip(RoundedCornerShape(MaterialTheme.spacing.medium16)),
-                    contentScale = ContentScale.FillBounds
-                )
-            }
+            AsyncImage(
+                model = item.imageUrl,
+                contentDescription = null,
+                modifier = Modifier
+                    .height(MaterialTheme.spacing.special124)
+                    .width(MaterialTheme.spacing.special124)
+                    .clip(RoundedCornerShape(MaterialTheme.spacing.medium16)),
+                contentScale = ContentScale.FillBounds
+            )
         }
     }
 }
 
 @Composable
-fun ShimmerPeekingCardsCarousel(
+fun ShimmerSquareView(
     modifier: Modifier = Modifier,
     itemCount: Int = 5
 ) {
