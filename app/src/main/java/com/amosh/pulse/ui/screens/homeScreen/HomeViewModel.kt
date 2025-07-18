@@ -1,8 +1,5 @@
 package com.amosh.pulse.ui.screens.homeScreen
 
-import android.util.Log
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableFloatStateOf
 import androidx.lifecycle.viewModelScope
 import com.amosh.pulse.R
 import com.amosh.pulse.core.data.di.IoDispatcher
@@ -14,11 +11,9 @@ import com.amosh.pulse.core.ui.base.BaseViewModel
 import com.amosh.pulse.ui.mapper.SectionItemUiMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.delayEach
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
@@ -79,9 +74,10 @@ class HomeViewModel @Inject constructor(
                     )
                 }
             }
-            .onEach { setState { copy(it) } }
+            .onEach {
+                setState { copy(it) }
+            }
             .catch {
-                it.printStackTrace()
                 setEffect { HomeContract.Effect.ShowError(messageRes = R.string.something_went_wrong) }
                 setState { copy(HomeContract.HomeState.Empty) }
             }

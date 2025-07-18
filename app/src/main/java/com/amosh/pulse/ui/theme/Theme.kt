@@ -10,20 +10,16 @@ import com.amosh.pulse.core.ui.theme.LocalSpacing
 import com.amosh.pulse.core.ui.theme.Spacing
 import com.amosh.pulse.core.ui.theme.Typography
 import com.amosh.pulse.core.ui.theme.platinum_100
-import com.amosh.pulse.core.ui.theme.platinum_150
-import com.amosh.pulse.core.ui.theme.platinum_200
 import com.amosh.pulse.core.ui.theme.platinum_600
-import com.amosh.pulse.core.ui.theme.platinum_800
-import com.amosh.pulse.core.ui.theme.platinum_900
 
 
 val lightColors = LightColors.apply {
     primary = colorPrimary
-    onPrimary = platinum_150
+    onPrimary = platinum_100
     inversePrimary = primaryDark
     secondary = colorAccent
     onSecondary = white
-    backgroundColor = platinum_150
+    backgroundColor = platinum_100
     onBackgroundColor = black
     surface = white
     onSurface = black
@@ -32,11 +28,11 @@ val lightColors = LightColors.apply {
 
 val darkColors = DarkColors.apply {
     primary = primaryDark
-    onPrimary = platinum_150
+    onPrimary = platinum_100
     inversePrimary = colorPrimary
     secondary = accentDark
     onSecondary = black
-    backgroundColor = platinum_150
+    backgroundColor = platinum_100
     onBackgroundColor = white
     surface = platinum_600
     onSurface = black

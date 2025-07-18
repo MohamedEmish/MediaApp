@@ -8,9 +8,6 @@ import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.clipScrollableContainer
-import androidx.compose.foundation.gestures.Orientation
-import androidx.compose.foundation.gestures.ScrollableDefaults
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -32,8 +29,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
+import com.amosh.pulse.core.ui.theme.platinum_150
 import com.amosh.pulse.core.ui.theme.platinum_400
+import com.amosh.pulse.core.ui.theme.platinum_50
 import com.amosh.pulse.core.ui.theme.platinum_600
 import com.amosh.pulse.core.ui.theme.spacing
 
@@ -95,9 +93,9 @@ fun ShimmerCategoryTabs(
     itemCount: Int = 5
 ) {
     val shimmerColors = listOf(
-        Color.LightGray.copy(alpha = 0.6f),
-        Color.LightGray.copy(alpha = 0.2f),
-        Color.LightGray.copy(alpha = 0.6f),
+        platinum_150,
+        platinum_50,
+        platinum_150,
     )
 
     val transition = rememberInfiniteTransition()

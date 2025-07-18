@@ -35,6 +35,7 @@ fun HomeScreen(
             is HomeContract.HomeState.Loading -> {
                 Column {
                     ShimmerCategoryTabs()
+                    ShimmerPeekingCardsCarousel()
                 }
             }
 
@@ -42,7 +43,7 @@ fun HomeScreen(
                 CategoryTabs(
                     categories = result.sections.mapNotNull { it.name }
                 ) {
-                // TODO :: change results in below sections
+                    // TODO :: change results in below sections
                 }
 
                 Column(
