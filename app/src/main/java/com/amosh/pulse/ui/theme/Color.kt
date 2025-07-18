@@ -15,5 +15,5 @@ val primary = Color(0xFF6A4DFF)
 val accent = Color(0xFFFFC400)
 
 
-val primaryDark = Color(0xFF8C6EFF)
-val accentDark = Color(0xFFFFD54F)
+val primaryDark = Color(0xFFB2A5FF)
+val accentDark = Color(0xFFFFE066)
