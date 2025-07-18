@@ -121,3 +121,7 @@ fun ContentUiItem.AudioArticleContentUi.mapToGridItem(): GridItem {
         date = this.releaseDate.orEmpty(),
     )
 }
+
+fun List<ContentUiItem?>?.filterNotNullItems(): List<ContentUiItem> {
+    return this.orEmpty().filterNotNull()
+}

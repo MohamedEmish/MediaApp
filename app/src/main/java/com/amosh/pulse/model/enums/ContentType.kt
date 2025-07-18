@@ -4,5 +4,5 @@ enum class ContentType {
     PODCAST,
     EPISODE,
     AUDIO_BOOK,
-    AUDIO_ARTICLE
+    AUDIO_ARTICLE,
 }

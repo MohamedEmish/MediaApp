@@ -8,4 +8,7 @@ class GetHomeSectionsUseCase @Inject constructor(
 ) {
     fun getHomeSections(page: Int) =
         repository.getHomeSections(page)
+
+    fun getHomeSearchSections(query: String) =
+        repository.getHomeSearchSections(query)
 }

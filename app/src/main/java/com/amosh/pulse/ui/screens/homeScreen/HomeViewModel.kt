@@ -11,7 +11,6 @@ import com.amosh.pulse.model.SectionsUiItem
 import com.amosh.pulse.ui.mapper.SectionItemUiMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
@@ -80,10 +79,7 @@ class HomeViewModel @Inject constructor(
                     }
                 }
             }
-            .onEach {
-                delay(2000)
-                setState { copy(it) }
-            }
+            .onEach { setState { copy(it) } }
             .catch {
                 setEffect { HomeContract.Effect.ShowError(messageRes = R.string.something_went_wrong) }
                 setState { copy(HomeContract.HomeState.Empty) }

@@ -85,25 +85,26 @@ fun GridViewData(
     lines: Int,
 ) {
     val screenWidth = LocalConfiguration.current.screenWidthDp.dp
-    val cardWidth = screenWidth * 0.8f
+    val cardWidth = if (sectionName.isNotEmpty()) screenWidth * 0.8f else screenWidth * 0.9f
     val cardHeight = MaterialTheme.spacing.special72
     val itemSpacing = MaterialTheme.spacing.small8
 
     val pairedItems = items.chunked(lines)
 
     Column {
-        Text(
-            modifier = Modifier.padding(
-                horizontal = MaterialTheme.spacing.medium16,
-                vertical = MaterialTheme.spacing.special4
-            ),
-            text = sectionName,
-            style = MaterialTheme.typography.titleMedium,
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis,
-            color = MaterialTheme.colorScheme.onBackground
-        )
-
+        if (sectionName.isNotEmpty()) {
+            Text(
+                modifier = Modifier.padding(
+                    horizontal = MaterialTheme.spacing.medium16,
+                    vertical = MaterialTheme.spacing.special4
+                ),
+                text = sectionName,
+                style = MaterialTheme.typography.titleMedium,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                color = MaterialTheme.colorScheme.onBackground
+            )
+        }
         LazyRow(
             contentPadding = PaddingValues(MaterialTheme.spacing.medium16),
             horizontalArrangement = Arrangement.spacedBy(itemSpacing)

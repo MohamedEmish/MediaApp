@@ -94,4 +94,7 @@ dependencies {
 
     // Palette
     implementation(libs.palette)
+
+    // Lottie
+    implementation(libs.lottie.compose)
 }
