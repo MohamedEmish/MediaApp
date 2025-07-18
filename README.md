@@ -2,6 +2,37 @@
 
 A modern Android application built with **Jetpack Compose**, **Kotlin**, and a clean architecture approach. **Pulse** serves as a modular, scalable, and production-ready base for audio-focused content such as **Podcasts**, **Audio Articles**, **Audiobooks**, and **Episodes**.
 
+## 📝 Solution Overview
+# ✅ Approach Summary
+
+To solve the task, I structured the app using MVVM with Clean Architecture, ensuring modularity and scalability.
+
+The Home Screen displays sections dynamically based on the response from the /home_sections API. Each section is rendered differently based on its contentType (grid, horizontal list, etc.).
+
+Implemented infinite scrolling using LazyColumn and pagination logic to handle future expansion.
+
+Content rendering is driven by the backend response (sectionType, contentType, order).
+
+Built a search screen using a debounce mechanism (200ms) to reduce unnecessary API calls via Flow.debounce() and distinctUntilChanged().
+
+All UI is built with Jetpack Compose, with lifecycle-aware ViewModels managing the state using StateFlow.
+
+## ⚠️ Challenges Faced
+Dynamic section rendering: Mapping API-driven data structure into multiple Compose layouts required careful separation and clean design patterns.
+
+Pagination without backend support: As the provided endpoint treats the whole screen as a single dataset, I implemented a smart callback with debounce to handle paginated APIs.
+
+Debounced search: Ensuring debounced text input and clean cancellation of previous jobs in Compose required custom LaunchedEffect handling tied to TextField state.
+
+##💡 Improvements & Ideas
+
+Add a local caching mechanism using Room or DataStore for offline mode or faster reloads.
+
+Enhance user experience with:
+
+ - Content filtering (e.g., Podcasts only)
+ - Impelement more feature such as community and library 
+
 ---
 
 ## 🚀 Tech Stack
