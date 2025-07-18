@@ -13,9 +13,19 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.amosh.pulse.core.domain.constants.Constants.VIEW_TYPE_2_LINES_GRID
 import com.amosh.pulse.core.domain.constants.Constants.VIEW_TYPE_QUEUE
 import com.amosh.pulse.core.domain.constants.Constants.VIEW_TYPE_SQUARE
 import com.amosh.pulse.model.enums.ContentType
+import com.amosh.pulse.ui.screens.homeScreen.subViews.CategoryTabs
+import com.amosh.pulse.ui.screens.homeScreen.subViews.GridView
+import com.amosh.pulse.ui.screens.homeScreen.subViews.QueueView
+import com.amosh.pulse.ui.screens.homeScreen.subViews.ShimmerCategoryTabs
+import com.amosh.pulse.ui.screens.homeScreen.subViews.ShimmerGridView
+import com.amosh.pulse.ui.screens.homeScreen.subViews.ShimmerQueueView
+import com.amosh.pulse.ui.screens.homeScreen.subViews.ShimmerSquareView
+import com.amosh.pulse.ui.screens.homeScreen.subViews.SquareView
+import com.amosh.pulse.ui.screens.homeScreen.subViews.TopGreetingBar
 
 @Composable
 fun HomeScreen(
@@ -37,6 +47,7 @@ fun HomeScreen(
                     ShimmerCategoryTabs()
                     ShimmerSquareView()
                     ShimmerQueueView()
+                    ShimmerGridView()
                 }
             }
 
@@ -67,15 +78,19 @@ fun HomeScreen(
                                     selectedType = it.contentType ?: ContentType.PODCAST,
                                 )
                             }
+
+
+                            VIEW_TYPE_2_LINES_GRID -> {
+                                GridView(
+                                    section = it,
+                                    selectedType = it.contentType ?: ContentType.PODCAST,
+                                    lines = 2
+                                )
+                            }
+
+
                         }
                     }
-
-//            NowPlayingBanner()
-//            Section(title = "اسمع قبل الناس", items = sampleItems)
-//            Section(title = "الحلقات الجديدة", items = sampleItems)
-//            Section(title = "توصيات الفريق", items = sampleItems)
-//            Section(title = "من الصالة", items = sampleItems)
-//            Section(title = "حلقات خاصة", items = sampleItems)
                 }
             }
 

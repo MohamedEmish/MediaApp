@@ -1,6 +1,6 @@
-package com.amosh.pulse.model.enums
+package com.amosh.pulse.model
 
-data class SquareItem (
+data class GridItem(
     val imageUrl: String,
     val title: String,
     val description: String,

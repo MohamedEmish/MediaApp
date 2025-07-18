@@ -1,4 +1,4 @@
-package com.amosh.pulse.ui.screens.homeScreen
+package com.amosh.pulse.ui.screens.homeScreen.subViews
 
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.RepeatMode
@@ -50,12 +50,12 @@ import com.amosh.pulse.core.ui.theme.platinum_50
 import com.amosh.pulse.core.ui.theme.spacing
 import com.amosh.pulse.model.ContentUiItem
 import com.amosh.pulse.model.SectionsUiItem
+import com.amosh.pulse.model.SquareItem
 import com.amosh.pulse.model.enums.ContentType
 import com.amosh.pulse.model.enums.ContentType.AUDIO_ARTICLE
 import com.amosh.pulse.model.enums.ContentType.AUDIO_BOOK
 import com.amosh.pulse.model.enums.ContentType.EPISODE
 import com.amosh.pulse.model.enums.ContentType.PODCAST
-import com.amosh.pulse.model.enums.SquareItem
 import com.amosh.pulse.ui.ext.mapToSquareItem
 
 @Composable

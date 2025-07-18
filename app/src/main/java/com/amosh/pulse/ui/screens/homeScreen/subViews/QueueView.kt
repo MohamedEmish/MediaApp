@@ -1,4 +1,4 @@
-package com.amosh.pulse.ui.screens.homeScreen
+package com.amosh.pulse.ui.screens.homeScreen.subViews
 
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.RepeatMode
@@ -44,7 +44,6 @@ import com.amosh.pulse.model.enums.ContentType.AUDIO_BOOK
 import com.amosh.pulse.model.enums.ContentType.EPISODE
 import com.amosh.pulse.model.enums.ContentType.PODCAST
 import com.amosh.pulse.ui.ext.mapToQueueItem
-
 
 @Composable
 fun QueueView(
@@ -125,7 +124,7 @@ fun QueueItemView(item: QueueItem) {
                 modifier = Modifier
                     .fillMaxSize()
                     .clip(RoundedCornerShape(MaterialTheme.spacing.medium16)),
-                contentScale = ContentScale.Crop
+                contentScale = ContentScale.FillBounds
             )
         }
 
@@ -164,7 +163,6 @@ fun QueueItemView(item: QueueItem) {
         }
     }
 }
-
 
 @Composable
 fun ShimmerQueueView(

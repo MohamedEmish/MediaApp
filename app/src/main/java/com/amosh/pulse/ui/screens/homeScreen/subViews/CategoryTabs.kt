@@ -1,4 +1,4 @@
-package com.amosh.pulse.ui.screens.homeScreen
+package com.amosh.pulse.ui.screens.homeScreen.subViews
 
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.RepeatMode

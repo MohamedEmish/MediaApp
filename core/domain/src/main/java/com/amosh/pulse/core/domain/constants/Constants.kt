@@ -9,4 +9,6 @@ object Constants {
 
     const val VIEW_TYPE_SQUARE = "square"
     const val VIEW_TYPE_QUEUE = "queue"
+    const val VIEW_TYPE_2_LINES_GRID = "2_lines_grid"
+
 }
