@@ -14,6 +14,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.amosh.pulse.core.domain.constants.Constants.VIEW_TYPE_2_LINES_GRID
+import com.amosh.pulse.core.domain.constants.Constants.VIEW_TYPE_BIG_SQUARE
 import com.amosh.pulse.core.domain.constants.Constants.VIEW_TYPE_QUEUE
 import com.amosh.pulse.core.domain.constants.Constants.VIEW_TYPE_SQUARE
 import com.amosh.pulse.model.enums.ContentType
@@ -69,6 +70,7 @@ fun HomeScreen(
                                 SquareView(
                                     section = it,
                                     selectedType = it.contentType ?: ContentType.PODCAST,
+                                    isBig = false
                                 )
                             }
 
@@ -88,6 +90,13 @@ fun HomeScreen(
                                 )
                             }
 
+                            VIEW_TYPE_BIG_SQUARE -> {
+                                SquareView(
+                                    section = it,
+                                    selectedType = it.contentType ?: ContentType.PODCAST,
+                                    isBig = true
+                                )
+                            }
 
                         }
                     }

@@ -48,6 +48,7 @@ fun ContentUiItem.PodcastContentUi.mapToSquareItem(): SquareItem {
         description = this.description.orEmpty(),
         duration = this.duration.orEmpty(),
         date = this.episodeCount?.toString().orEmpty(),
+        episodesCount = this.episodeCount ?: 0
     )
 }
 
@@ -67,7 +68,7 @@ fun ContentUiItem.AudioBookContentUi.mapToSquareItem(): SquareItem {
         title = this.name.orEmpty(),
         description = this.description.orEmpty(),
         duration = this.duration?.toString().orEmpty(),
-        date = this.releaseDate?.toString().orEmpty(),
+        date = this.releaseDate.orEmpty(),
     )
 }
 

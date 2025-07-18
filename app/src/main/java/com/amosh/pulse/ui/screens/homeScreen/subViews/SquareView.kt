@@ -41,10 +41,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import coil.compose.AsyncImage
+import com.amosh.pulse.R
 import com.amosh.pulse.core.ui.theme.platinum_150
 import com.amosh.pulse.core.ui.theme.platinum_50
 import com.amosh.pulse.core.ui.theme.spacing
@@ -57,12 +60,14 @@ import com.amosh.pulse.model.enums.ContentType.AUDIO_BOOK
 import com.amosh.pulse.model.enums.ContentType.EPISODE
 import com.amosh.pulse.model.enums.ContentType.PODCAST
 import com.amosh.pulse.ui.ext.mapToSquareItem
+import com.amosh.pulse.utils.formatDate
 
 @Composable
 fun SquareView(
     modifier: Modifier = Modifier,
     section: SectionsUiItem,
     selectedType: ContentType,
+    isBig: Boolean
 ) {
     val items = when (selectedType) {
         PODCAST -> section.content?.filterIsInstance<ContentUiItem.PodcastContentUi>()
@@ -79,11 +84,19 @@ fun SquareView(
     }
 
     if (!items.isNullOrEmpty()) {
-        SquareViewData(
-            sectionName = section.name.orEmpty(),
-            items = items,
-            modifier = modifier,
-        )
+        if (isBig) {
+            BigSquareViewData(
+                sectionName = section.name.orEmpty(),
+                items = items,
+                modifier = modifier,
+            )
+        } else {
+            SquareViewData(
+                sectionName = section.name.orEmpty(),
+                items = items,
+                modifier = modifier,
+            )
+        }
     }
 }
 
@@ -119,9 +132,7 @@ fun SquareViewData(
             modifier = modifier
                 .fillMaxWidth()
                 .height(MaterialTheme.spacing.special156)
-                .padding(
-                    vertical = MaterialTheme.spacing.small8
-                )
+                .padding(vertical = MaterialTheme.spacing.small8)
         ) {
             LazyRow(
                 state = listState,
@@ -184,6 +195,105 @@ fun SquareViewData(
         }
     }
 }
+
+@Composable
+fun BigSquareViewData(
+    sectionName: String,
+    items: List<SquareItem>,
+    modifier: Modifier = Modifier,
+) {
+    val screenWidth = LocalConfiguration.current.screenWidthDp.dp
+    val spacing = MaterialTheme.spacing.medium16
+    Column {
+        Text(
+            modifier = Modifier.padding(
+                horizontal = MaterialTheme.spacing.medium16,
+                vertical = MaterialTheme.spacing.special4
+            ),
+            text = sectionName,
+            style = MaterialTheme.typography.titleMedium,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
+            color = MaterialTheme.colorScheme.onBackground
+        )
+
+        LazyRow(
+            modifier = modifier,
+            contentPadding = PaddingValues(MaterialTheme.spacing.medium16),
+            horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.small8)
+        ) {
+            items(items) { item ->
+                Box(modifier = Modifier.width(screenWidth - spacing.times(2))) {
+                    BigSquareItemView(item = item)
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun BigSquareItemView(item: SquareItem) {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(MaterialTheme.spacing.special140)
+            .clip(RoundedCornerShape(MaterialTheme.spacing.medium16))
+    ) {
+        AsyncImage(
+            model = item.imageUrl,
+            contentDescription = null,
+            modifier = Modifier
+                .fillMaxSize()
+                .clip(RoundedCornerShape(MaterialTheme.spacing.medium16)),
+            contentScale = ContentScale.FillBounds
+        )
+
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(
+                    Brush.verticalGradient(
+                        colors = listOf(
+                            Color.Transparent,
+                            Color.Black.copy(alpha = 0.7f)
+                        ),
+                        startY = 0.4f
+                    )
+                )
+        )
+
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(MaterialTheme.spacing.medium16),
+            verticalArrangement = Arrangement.Bottom
+        ) {
+            Text(
+                text = item.title,
+                style = MaterialTheme.typography.bodyLarge.copy(
+                    color = MaterialTheme.colorScheme.onSecondary
+                ),
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
+
+            Spacer(modifier = Modifier.height(MaterialTheme.spacing.small8))
+
+            Text(
+                text = item.episodesCount?.let {
+                    stringResource(R.string.episode_x, it)
+                } ?: item.date.formatDate() ?: "",
+                style = MaterialTheme.typography.bodyMedium.copy(
+                    color = MaterialTheme.colorScheme.onSecondary.copy(alpha = 0.8f)
+                ),
+                maxLines = 1,
+                textAlign = TextAlign.End,
+                overflow = TextOverflow.Ellipsis
+            )
+        }
+    }
+}
+
 
 @Composable
 fun SquareCard(
