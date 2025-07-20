@@ -69,6 +69,13 @@ All UI is built with Jetpack Compose, with lifecycle-aware ViewModels managing t
 ├── app/
 │   └── ui/                        # Presentation layer (screens and ViewModels)
 │
+├── features
+│   │   ├── media/                 # Holds media data feature ui
+│   │       ├── data/              # Feature Data layer implementations
+│   │       ├── domain/            # Feature use cases
+│   │       └── ui/                # Feature specific UIs
+│   │   ├── next feature ...       # next to add features ...
+
 ├── core/
 │   ├── data/                      # Data layer implementations
 │   │   ├── dataSource/            # Abstract data sources
@@ -80,8 +87,8 @@ All UI is built with Jetpack Compose, with lifecycle-aware ViewModels managing t
 │   │   ├── useCases/              # Use case classes
 │   │   ├── appConstants/          # Constants and config values
 │   │   └── utils/                 # General-purpose tools
-│
-│   └── ui/                        # Shared Jetpack Compose UI and base ViewModels
+│   │   │
+│   │   └── ui/                    # Shared Jetpack Compose UI and base ViewModels
 ```
 
 - Follows **MVVM + Clean Architecture**

@@ -27,3 +27,10 @@ include(":core")
 include(":core:data")
 include(":core:domain")
 include(":core:ui")
+
+include(":features")
+
+include(":features:media")
+include(":features:media:data")
+include(":features:media:domain")
+include(":features:media:ui")

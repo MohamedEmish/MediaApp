@@ -7,4 +7,7 @@
     <string name="clear">Clear</string>
     <string name="search">Search</string>
     <string name="no_search_result">No Search Result</string>
+    <string name="no_internet">Check your connection, no internet</string>
+    <string name="something_went_wrong">Something went wrong</string>
+    <string name="no_data_to_show">No data to show</string>
 </resources>

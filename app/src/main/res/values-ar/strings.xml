@@ -8,15 +8,6 @@
     <string name="settings">الإعدادات</string>
     <string name="english">English</string>
     <string name="arabic">العربية</string>
-    <string name="something_went_wrong">حدث خطأ غير متوقع</string>
-    <string name="greeting_morning">صباح الخير!</string>
-    <string name="greeting_morning_with_name">صباح الخير، %1$s!</string>
-    <string name="greeting_afternoon">مساء الخير!</string>
-    <string name="greeting_afternoon_with_name">مساء الخير، %1$s!</string>
-    <string name="greeting_evening">مساء الخير!</string>
-    <string name="greeting_evening_with_name">مساء الخير، %1$s!</string>
-    <string name="episode_x">%s حلقة</string>
-    <string name="no_internet">لا يوجد اتصال بالإنترنت. يرجى التحقق من الشبكة</string>
     <string name="language">اللغة</string>
     <string name="username">الاسم</string>
     <string name="theme">المظهر</string>
@@ -24,6 +15,5 @@
     <string name="light">الوضع الفاتح</string>
     <string name="follow_system">مطابقة إعدادات النظام</string>
     <string name="coming_soon">قريبًا…</string>
-    <string name="no_data_to_show">لا توجد بيانات للعرض</string>
 
 </resources>

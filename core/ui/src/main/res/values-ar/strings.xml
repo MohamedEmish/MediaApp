@@ -7,4 +7,7 @@
     <string name="clear">مسح</string>
     <string name="search">بحث</string>
     <string name="no_search_result">لا توجد نتائج بحث</string>
+    <string name="no_internet">لا يوجد اتصال بالإنترنت. يرجى التحقق من الشبكة</string>
+    <string name="something_went_wrong">حدث خطأ غير متوقع</string>
+    <string name="no_data_to_show">لا توجد بيانات للعرض</string>
 </resources>

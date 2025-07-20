@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.ksp)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.hilt)
     id("kotlin-parcelize")
 }
 
@@ -26,6 +27,16 @@ android {
             )
         }
     }
+
+    packaging {
+        resources {
+            excludes += setOf(
+                "META-INF/LICENSE.md",
+                "META-INF/LICENSE-notice.md"
+            )
+        }
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
@@ -41,35 +52,43 @@ android {
 
 dependencies {
     // Kotlin BOM
-    implementation(platform(libs.kotlin.bom))
+    api(platform(libs.kotlin.bom))
 
     // AndroidX Core
-    implementation(libs.androidx.core)
+    api(libs.androidx.core)
 
     // Compose
-    implementation(platform(libs.compose.bom))
+    api(platform(libs.compose.bom))
 
-    implementation(libs.compose.ui)
-    implementation(libs.compose.material3)
-    implementation(libs.compose.preview)
-    implementation(libs.compose.tooling)
-    implementation(libs.compose.animation)
-    implementation(libs.compose.icons.core)
-    implementation(libs.compose.icons.extended)
-    implementation(libs.compose.constraint.layout)
-    implementation(libs.compose.activity)
+    api(libs.compose.ui)
+    api(libs.compose.material3)
+    api(libs.compose.preview)
+    api(libs.compose.tooling)
+    api(libs.compose.animation)
+    api(libs.compose.icons.core)
+    api(libs.compose.icons.extended)
+    api(libs.compose.constraint.layout)
+    api(libs.compose.activity)
 
     // Lifecycle
-    implementation(libs.lifecycle.runtime)
-    implementation(libs.lifecycle.viewmodel)
+    api(libs.lifecycle.runtime)
+    api(libs.lifecycle.viewmodel)
 
     // Coil
-    implementation(libs.coil)
+    api(libs.coil)
 
     // Project Modules
     implementation(project(":core:data"))
     implementation(project(":core:domain"))
 
+    // Lottie
+    api(libs.lottie.compose)
+
     //Testing
-    testImplementation(libs.bundles.testing)
+    api(libs.bundles.testing)
+
+    // Hilt
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.android.compiler)
+    implementation(libs.hilt.navigation.compose)
 }

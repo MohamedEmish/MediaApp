@@ -52,14 +52,14 @@ import com.amosh.pulse.core.ui.components.dialogs.filePicker.FileType
 import com.amosh.pulse.core.ui.components.inputFields.DataInputStatus
 import com.amosh.pulse.core.ui.components.inputFields.DataInputType
 import com.amosh.pulse.core.ui.components.inputFields.SimpleLabDataInputFieldCompose
+import com.amosh.pulse.core.ui.extension.getFilePathFromContentUri
 import com.amosh.pulse.core.ui.extension.noRippleClickable
+import com.amosh.pulse.core.ui.extension.saveBitmapToFile
 import com.amosh.pulse.core.ui.theme.spacing
 import com.amosh.pulse.ui.screens.MainViewModel
 import com.amosh.pulse.ui.screens.changeLanguage.ChangeLanguageSheet
 import com.amosh.pulse.ui.screens.changeLanguage.ChangeThemeSheet
 import com.amosh.pulse.utils.LocalNavHostController
-import com.amosh.pulse.utils.getFilePathFromContentUri
-import com.amosh.pulse.utils.saveBitmapToFile
 
 @Preview
 @Composable

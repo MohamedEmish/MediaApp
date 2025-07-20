@@ -21,6 +21,15 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    packaging {
+        resources {
+            excludes += setOf(
+                "META-INF/LICENSE.md",
+                "META-INF/LICENSE-notice.md"
+            )
+        }
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = false
@@ -55,6 +64,10 @@ dependencies {
     implementation(project(":core:data"))
     implementation(project(":core:domain"))
     implementation(project(":core:ui"))
+
+    implementation(project(":features:media:data"))
+    implementation(project(":features:media:domain"))
+    implementation(project(":features:media:ui"))
 
     // AndroidX Core
     implementation(libs.androidx.core)
@@ -94,9 +107,6 @@ dependencies {
 
     // Palette
     implementation(libs.palette)
-
-    // Lottie
-    implementation(libs.lottie.compose)
 
     //Testing
     testImplementation(libs.bundles.testing)
