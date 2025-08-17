@@ -9,94 +9,94 @@ val fontSizes = FontSizes()
 
 // Heading
 val SimpleLabHeadingXLarge = TextStyle(
-    fontFamily = InterSemiBold,
+    fontFamily = IbmPlexSemiBold,
     fontSize = fontSizes.headingXLarge28,
     color = Black,
 )
 
 val SimpleLabHeadingLarge = TextStyle(
-    fontFamily = InterSemiBold,
+    fontFamily = IbmPlexSemiBold,
     fontSize = fontSizes.headingLarge24,
     color = Black,
 )
 
 val SimpleLabHeadingMedium = TextStyle(
-    fontFamily = InterMedium,
+    fontFamily = IbmPlexMedium,
     fontSize = fontSizes.headingMedium20,
     color = Black,
 )
 
 val SimpleLabHeadingSmall = TextStyle(
-    fontFamily = InterMedium,
+    fontFamily = IbmPlexMedium,
     fontSize = fontSizes.xLarge18,
     color = Black,
 )
 
 // Title
 val SimpleLabTitleXLarge = TextStyle(
-    fontFamily = InterBold,
+    fontFamily = IbmPlexBold,
     fontSize = fontSizes.headingLarge24,
     color = Black,
 )
 
 val SimpleLabTitleLarge = TextStyle(
-    fontFamily = InterSemiBold,
+    fontFamily = IbmPlexSemiBold,
     fontSize = fontSizes.headingMedium20,
     color = Black,
 )
 
 val SimpleLabTitleMedium = TextStyle(
-    fontFamily = InterMedium,
+    fontFamily = IbmPlexMedium,
     fontSize = fontSizes.xLarge18,
     color = Black,
 )
 
 val SimpleLabTitleSmall = TextStyle(
-    fontFamily = InterMedium,
+    fontFamily = IbmPlexMedium,
     fontSize = fontSizes.large16,
     color = Black,
 )
 
 // Label
 val SimpleLabLabelXLarge = TextStyle(
-    fontFamily = InterRegular,
+    fontFamily = IbmPlexRegular,
     fontSize = fontSizes.xLarge18,
     color = Black,
 )
 
 val SimpleLabLabelLarge = TextStyle(
-    fontFamily = InterMedium,
+    fontFamily = IbmPlexMedium,
     fontSize = fontSizes.large16,
     color = Black,
 )
 
 val SimpleLabLabelMedium = TextStyle(
-    fontFamily = InterMedium,
+    fontFamily = IbmPlexMedium,
     fontSize = fontSizes.normal14,
     color = Black,
 )
 
 val SimpleLabLabelSmall = TextStyle(
-    fontFamily = InterMedium,
+    fontFamily = IbmPlexMedium,
     fontSize = fontSizes.small12,
     color = Black,
 )
 
 // Body
 val SimpleLabBodyLarge = TextStyle(
-    fontFamily = InterRegular,
+    fontFamily = IbmPlexRegular,
     fontSize = fontSizes.normal14,
     color = Black,
 )
 
 val SimpleLabBodyMedium = TextStyle(
-    fontFamily = InterRegular,
+    fontFamily = IbmPlexRegular,
     fontSize = fontSizes.small12,
     color = Black,
 )
 
 val SimpleLabBodySmall = TextStyle(
-    fontFamily = InterRegular,
+    fontFamily = IbmPlexRegular,
     fontSize = fontSizes.xSmall10,
     color = Black,
 )

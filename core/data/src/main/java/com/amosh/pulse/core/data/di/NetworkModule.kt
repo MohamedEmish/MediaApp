@@ -1,6 +1,7 @@
 package com.amosh.pulse.core.data.di
 
 import android.content.Context
+import com.amosh.pulse.core.data.interceptors.AppHeadersInterceptor
 import com.chuckerteam.chucker.api.ChuckerCollector
 import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.chuckerteam.chucker.api.RetentionManager
@@ -44,17 +45,13 @@ object NetworkModule {
     @Provides
     fun provideOkHttpClient(
         loggingInterceptor: LoggingInterceptor,
+        appHeadersInterceptor: AppHeadersInterceptor,
         chuckInterceptor: ChuckerInterceptor,
     ): OkHttpClient = OkHttpClient.Builder()
         .connectTimeout(30, TimeUnit.SECONDS)
         .writeTimeout(30, TimeUnit.SECONDS)
         .readTimeout(30, TimeUnit.SECONDS)
-        .addInterceptor { chain ->
-            val request = chain.request().newBuilder()
-                .header("Content-Type", "application/json")
-                .build()
-            chain.proceed(request)
-        }
+        .addInterceptor(appHeadersInterceptor)
         .addInterceptor(loggingInterceptor)
         .addInterceptor(chuckInterceptor)
         .retryOnConnectionFailure(true)
